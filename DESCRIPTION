@@ -1,0 +1,22 @@
+Package: RCXNetworkDifferences
+Type: Package
+Title: R package extending the RCX data model for tracking and visualizing the 
+differences of two RCX networks
+Version: 1.0.0
+Authors@R: person("Nadja", "Bramkamp genannt Beckmann", role = c("aut","cre"), 
+                  email="nadja.bramkampgenanntbeckmann@student.uni-augsburg.de")
+Description: 
+License: 
+Depends:
+    R (>= 4.0.0),
+    RCX
+Imports:
+RoxygenNote: 7.1.2
+Roxygen: list(markdown = TRUE)
+Suggests: BiocStyle,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Encoding: UTF-8
+URL: https://github.com/frankkramer-lab/RCX-NetworkDifferences
+BugReports:
