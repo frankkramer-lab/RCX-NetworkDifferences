@@ -35,6 +35,8 @@
 #' @note The execution of the function is interrupted and a warning message is displayed if *matchByName* is `TRUE` and one or both networks do not have names for their nodes.
 #' It works analogously if *matchByName* is `FALSE` and one or both networks do not have represents for their nodes. 
 #' 
+#' @importFrom RCX Defaults
+#' 
 #' @name createNetworkDifferences
 #' @export
 compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
@@ -745,9 +747,10 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
     ## Create list
     netDiff = list("matchByName" = matchByName, "nodes" = nodes, "nodeAttributes" = nodeAttributes, "edges" = edges, 
                    "edgeAttributes" = edgeAttributes, "networkAttributes" = networkAttributes)
+    class(netDiff) = c(class(netDiff), "NetworkDifferencesAspect")
     #class(netDif) <- append("NetworkDifferencesAspect", class(netDif))
-    .addClass(netDiff) = .CLS$networkDifferences
-    class(netDiff)
+    #RCX:::.addClass(netDiff) = .CLS$networkDifferences
+    #class(netDiff)
     resultRCX$networkDifferences <- netDiff
     ## Return result
     return(resultRCX)
@@ -797,7 +800,7 @@ updateNetworkDifferences = function(rcx, netDif) {
 #' @export
 exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALSE, dX=70, dY=70, startLayerBoth=5, 
                                           startLayerLeftRight=10, startLayerAttributes=0, startLayerValues=0) {
-    if (class(aspect)[1] != "NetworkDifferencesAspect") {
+    if (class(aspect)[2] != "NetworkDifferencesAspect") {
         stop('aspect must be from the type networkDifferencesAspect')
     }
     
@@ -917,7 +920,7 @@ exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALS
 #' @export
 exportDifferencesToEdgeNetwork <- function(aspect=NULL, dX=70, dY=70, startLayerBoth=5, startLayerLeftRight=10, 
                                            startLayerAttributes=0, startLayerValues=0) {
-    if (class(aspect)[1] != "NetworkDifferencesAspect") {
+    if (class(aspect)[2] != "NetworkDifferencesAspect") {
         stop('aspect must be from the type networkDifferencesAspect')
     }
     ## Stop the execution of the function is the layer-parameter are not set correctly
@@ -1073,7 +1076,7 @@ exportDifferencesToEdgeNetwork <- function(aspect=NULL, dX=70, dY=70, startLayer
 #' @export
 exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents=FALSE, dX=70, dY=70, startLayerBoth=5, 
                                                startLayerLeftRight=10, startLayerAttributes=0, startLayerValues=0) {
-    if (class(aspect)[1] != "NetworkDifferencesAspect") {
+    if (class(aspect)[2] != "NetworkDifferencesAspect") {
         stop('aspect must be from the type NetworkDifferencesAspect')
     }
     ## Stop the execution of the function is the layer-parameter are not set correctly

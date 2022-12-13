@@ -1,16 +1,19 @@
 Package: RCXNetworkDifferences
 Type: Package
-Title: R package extending the RCX data model for tracking and visualizing the 
-differences of two RCX networks
+Title: R package extending the RCX data model for tracking and visualizing the differences of two RCX networks
 Version: 1.0.0
-Authors@R: person("Nadja", "Bramkamp genannt Beckmann", role = c("aut","cre"), 
+Authors@R: person("Nadja", "Bramkamp", role = c("aut","cre"), 
                   email="nadja.bramkampgenanntbeckmann@student.uni-augsburg.de")
-Description: 
-License: 
+Description: This package contains a function for tracking the differences of two RCX objects regarding the nodes, nodeAttributes, edges, edgeAttributes and networkAttributes. 
+    Funktions are provided to create RCX objects that visualize these differences and these RCX networks can be saved and shared.
+    In addition, the aspect can be converted to JSON and back.
+License: MIT + file LICENSE
 Depends:
     R (>= 4.0.0),
     RCX
 Imports:
+    jsonlite,
+    methods
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Suggests: BiocStyle,
@@ -19,4 +22,4 @@ Suggests: BiocStyle,
 VignetteBuilder: knitr
 Encoding: UTF-8
 URL: https://github.com/frankkramer-lab/RCX-NetworkDifferences
-BugReports:
+BugReports: https://github.com/frankkramer-lab/RCX-NetworkDifferences/issues
