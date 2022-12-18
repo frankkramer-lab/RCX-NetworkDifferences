@@ -17,7 +17,7 @@
 #' @export
 #' @importFrom RCX rcxToJson, .addClass
 #'
-#' @seealso [RCX::toCX], [RCX::writeCX], [RCX::jsonToRCX], [RCX::readCX]
+#' @seealso [RCX:::toCX], [RCX:::writeCX], [RCX:::jsonToRCX], [RCX:::readCX]
 rcxToJson.NetworkDifferencesAspect = function(aspect, verbose=FALSE, ...){
     ## Use the existing functions from the RCX package to convert to nodes, nodeAttributes, edges, edgeAttributes to JSON
     nodes <- RCX:::rcxToJson.NodesAspect(aspect$nodes)
@@ -45,7 +45,7 @@ rcxToJson.NetworkDifferencesAspect = function(aspect, verbose=FALSE, ...){
 #'
 #' Functions to handle parsed JSON for the [NetworkDifferences] aspect.
 #'
-#' These functions will be used in [RCX::processCX] to process the JSON data for every aspect.
+#' These functions will be used in [RCX:::processCX] to process the JSON data for every aspect.
 #'
 #' This results in a list of lists (of lists...) to avoid automatic data type conversions, which affect the correctness and
 #' usability of the data. Simplified JSON data for example [NodeAttributes] would be coerced into a data.frame,
@@ -65,7 +65,7 @@ rcxToJson.NetworkDifferencesAspect = function(aspect, verbose=FALSE, ...){
 #' @export
 #' @importFrom RCX jsonToRCX, createRCX, updateNodeAttributes, updateEdgeAttributes
 #'
-#' @seealso [RCX::rcxToJson], [RCX::toCX], [RCX::readCX], [RCX::writeCX]
+#' @seealso [RCX:::rcxToJson], [RCX:::toCX], [RCX:::readCX], [RCX:::writeCX]
 jsonToRCX.networkDifferencesAspect = function(jsonData, verbose = FALSE){
     if(verbose) cat("Parsing NetworkDifferences...")
     ## Reconvert each aspect
@@ -74,9 +74,9 @@ jsonToRCX.networkDifferencesAspect = function(jsonData, verbose = FALSE){
     edges = RCX:::jsonToRCX.edges(jsonData[[3]], verbose = TRUE)
     edgeAttributes = RCX:::jsonToRCX.edgeAttributes(jsonData[[4]], verbose = TRUE)
     ## Create result RCX object
-    rcx = RCX:::createRCX(nodes = nodes, edges = edges)
-    rcx <- RCX:::updateNodeAttributes(rcx, nodeAttributes)
-    rcx <- RCX:::updateEdgeAttributes(rcx, edgeAttributes)
+    rcx = RCX::createRCX(nodes = nodes, edges = edges)
+    rcx <- RCX::updateNodeAttributes(rcx, nodeAttributes)
+    rcx <- RCX::updateEdgeAttributes(rcx, edgeAttributes)
     rcx$networkDifferences <- jsonToRCX.networkDifferences(jsonData[[5]], verbose = TRUE)
     return(rcx)
 }

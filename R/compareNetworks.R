@@ -88,14 +88,11 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
     if (length(right$edgeAttributes$propertyOf) > 0) {
         resultRCX <- updateEdgeAttributes(resultRCX, edgeAttributes = rbind(left$edgeAttributes, rightEdgeAttrUpdated))
     }
-    ## PROBLEM: es gibt bei processCX ein Error, da es bei createNetworkAttributes keine doppelten Namen geben darf
-    #resultRCX <- updateNetworkAttributes(resultRCX, networkAttributes = rbind(left$networkAttributes, right$networkAttributes))
     #---NODES-----------------------------------------------------------------------
     ## Check if both networks have nodes
     if (length(left$nodes$id)==0 || length(right$nodes$id)==0) {
         stop('NetworkDifferences cannot be created when one network does not have nodes')
     }
-    
     ## Create result dataframe for the nodes.
     ## Dataframe is changed later, if matchByName=TRUE "represent" is named representLeft" and the column "representRight" is added in order to track 
     ## different represents with same name (analogously with matchByRepresents and names)
@@ -210,16 +207,14 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
             }
         }
     }
-    
+    ## Convert the booleans to strings
     nodes$belongsToLeft <- as.character(nodes$belongsToLeft)
     nodes$belongsToRight <- as.character(nodes$belongsToRight)
     #---NODEATTRIBUTES--------------------------------------------------------------
     ## Create result dataframe for nodeAttributes
     nodeAttributes <- data.frame(matrix(ncol=10, nrow=0))
-    x <- c("propertyOf", "name", "belongsToLeft", "belongsToRight", "dataTypeLeft", 
-           "dataTypeRight", "isListLeft", "isListRight", "valueLeft", 
-           "valueRight")
-    colnames(nodeAttributes) <- x
+    colnames(nodeAttributes) <- c("propertyOf", "name", "belongsToLeft", "belongsToRight", "dataTypeLeft", 
+                                  "dataTypeRight", "isListLeft", "isListRight", "valueLeft", "valueRight")
     ## Check if there are only nodeAttributes in the left network
     if ((length(left$nodeAttributes$propertyOf) > 0) && (length(right$nodeAttributes$propertyOf) == 0)) {
         ## Initialize the dataframe
@@ -352,10 +347,12 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
             }
         }
     }
+    ## Convert the booleans to strings
     nodeAttributes$belongsToLeft <- as.character(nodeAttributes$belongsToLeft)
     nodeAttributes$belongsToRight <- as.character(nodeAttributes$belongsToRight)
     nodeAttributes$isListLeft <- as.character(nodeAttributes$isListLeft)
     nodeAttributes$isListRight <- as.character(nodeAttributes$isListRight)
+    ## All values are strings or NA
     nodeAttributes$valueLeft <- as.vector(nodeAttributes$valueLeft,'character')
     nodeAttributes$valueLeft[nodeAttributes$valueLeft == "NA"] <- NA
     nodeAttributes$valueRight <- as.vector(nodeAttributes$valueRight,'character')
@@ -457,7 +454,6 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
                 edges[i,]$target = nodes_oldIdLeft[nodes_oldIdLeft$oldIdLeft == row$target,]$id
             }
         }
-        
         ## matchByName is set
         if (matchByName) {
             ## Iterate through edges in the right dataframe
@@ -654,10 +650,12 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
             }
         }
     }
+    ## convert all booleans to strings
     edgeAttributes$belongsToLeft <- as.character(edgeAttributes$belongsToLeft)
     edgeAttributes$belongsToRight <- as.character(edgeAttributes$belongsToRight)
     edgeAttributes$isListLeft <- as.character(edgeAttributes$isListLeft)
     edgeAttributes$isListRight <- as.character(edgeAttributes$isListRight)
+    ## all values are strings or NA
     edgeAttributes$valueLeft <- as.vector(edgeAttributes$valueLeft,'character')
     edgeAttributes$valueLeft[edgeAttributes$valueLeft == "NA"] <- NA
     edgeAttributes$valueRight <- as.vector(edgeAttributes$valueRight,'character')
@@ -734,10 +732,12 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
             }
         }
     }
+    ## convert all booleans to strings
     networkAttributes$belongsToLeft <- as.character(networkAttributes$belongsToLeft)
     networkAttributes$belongsToRight <- as.character(networkAttributes$belongsToRight)
     networkAttributes$isListLeft <- as.character(networkAttributes$isListLeft)
     networkAttributes$isListRight <- as.character(networkAttributes$isListRight)
+    ## all values are strings or NA
     networkAttributes$valueLeft <- as.vector(networkAttributes$valueLeft,'character')
     networkAttributes$valueLeft[networkAttributes$valueLeft == "NA"] <- NA
     networkAttributes$valueRight <- as.vector(networkAttributes$valueRight,'character')
@@ -748,16 +748,24 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
     netDiff = list("matchByName" = matchByName, "nodes" = nodes, "nodeAttributes" = nodeAttributes, "edges" = edges, 
                    "edgeAttributes" = edgeAttributes, "networkAttributes" = networkAttributes)
     class(netDiff) = c(class(netDiff), "NetworkDifferencesAspect")
-    #class(netDif) <- append("NetworkDifferencesAspect", class(netDif))
-    #RCX:::.addClass(netDiff) = .CLS$networkDifferences
-    #class(netDiff)
-    resultRCX$networkDifferences <- netDiff
+    resultRCX <- updateNetworkDifferences(resultRCX, netDiff)
     ## Return result
     return(resultRCX)
 }
 
-updateNetworkDifferences = function(rcx, netDif) {
-    rcx$networkDifferences <- netDif
+#' Title
+#'
+#' @param rcx [RCX object] to which the [networkDifferences] aspect is added
+#' @param netDif [networkDifferences] aspect
+#'
+#' @return [RCX object]
+#' @export
+updateNetworkDifferences = function(rcx, networkDifferences) {
+    ## Check the class of the given networkDifferences aspect
+    if (class(networkDifferences)[2] != "NetworkDifferencesAspect") {
+        stop('aspect must be from the type networkDifferencesAspect')
+    }
+    rcx$networkDifferences <- networkDifferences
     return(rcx)
 }
 #' Node-centered \code{\link{RCX-object}} for the differences of two RCX-objects
@@ -800,10 +808,10 @@ updateNetworkDifferences = function(rcx, netDif) {
 #' @export
 exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALSE, dX=70, dY=70, startLayerBoth=5, 
                                           startLayerLeftRight=10, startLayerAttributes=0, startLayerValues=0) {
+    ## Check the class of the given networkDifferences aspect
     if (class(aspect)[2] != "NetworkDifferencesAspect") {
         stop('aspect must be from the type networkDifferencesAspect')
     }
-    
     ## Stop the execution of the function is the layer-parameter are not set correctly
     if ((startLayerBoth<=0) || (startLayerLeftRight<=0)) {
         stop('startLayerBoth and startLayerLeftRight must be greater than 0')
@@ -843,7 +851,7 @@ exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALS
             target = as.integer(edgesDf$target),
             interaction = edgesDf$interaction
         )
-        rcx <- updateEdges(rcx, edges)
+        rcx <- RCX::updateEdges(rcx, edges)
         ## Values stores if an edge belongsTo the left, right or both networks
         values = c()
         for (i in 1:nrow(edgesDf)) {
@@ -857,15 +865,14 @@ exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALS
             }
         }
         ## Create edgeAttributes belongsTo to color if an edge belongsTo the left, right or both networks
-        edgeAttributesBelongsTo = createEdgeAttributes(
+        edgeAttributesBelongsTo = RCX::createEdgeAttributes(
             propertyOf = c(offsetEdges: (offsetEdges + length(edgesDf$source) -1)),
             name = rep("belongsTo", length(edgesDf$source)),
             value = values
         )
-        rcx <- updateEdgeAttributes(rcx, edgeAttributesBelongsTo)
+        rcx <- RCX::updateEdgeAttributes(rcx, edgeAttributesBelongsTo)
     }
-    
-    
+
     ## NodeAttributes  
     nodeAttrDf = as.data.frame(aspect$nodeAttributes)
     ## Check if nodeAttributes should be included and if nodeAttributes exist
@@ -879,7 +886,7 @@ exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALS
     rcx <- .diffAddVisualization(rcx)
     
     ## Layout
-    rcx <- updateCartesianLayout(rcx, .diffSortedLayout(rcx, dX, dY, startLayerBoth, startLayerLeftRight, startLayerAttributes, startLayerValues))
+    rcx <- RCX::updateCartesianLayout(rcx, .diffSortedLayout(rcx, dX, dY, startLayerBoth, startLayerLeftRight, startLayerAttributes, startLayerValues))
     return(rcx)
 }
 
@@ -920,6 +927,7 @@ exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALS
 #' @export
 exportDifferencesToEdgeNetwork <- function(aspect=NULL, dX=70, dY=70, startLayerBoth=5, startLayerLeftRight=10, 
                                            startLayerAttributes=0, startLayerValues=0) {
+    ## Check the class of the given networkDifferences aspect
     if (class(aspect)[2] != "NetworkDifferencesAspect") {
         stop('aspect must be from the type networkDifferencesAspect')
     }
@@ -1076,6 +1084,7 @@ exportDifferencesToEdgeNetwork <- function(aspect=NULL, dX=70, dY=70, startLayer
 #' @export
 exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents=FALSE, dX=70, dY=70, startLayerBoth=5, 
                                                startLayerLeftRight=10, startLayerAttributes=0, startLayerValues=0) {
+    ## Check the class of the given networkDifferences aspect
     if (class(aspect)[2] != "NetworkDifferencesAspect") {
         stop('aspect must be from the type NetworkDifferencesAspect')
     }
@@ -1122,8 +1131,7 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
         for (i in c(1:nrow(edgeDf))) {
             row = edgeDf[i,]
             rcx <- updateEdges(rcx, createEdges(source = c(as.integer(row$source), as.integer(row$target)),
-                                                target = c(as.integer(row$id) + offsetEdges, as.integer(row$id) + offsetEdges)
-            ))
+                                                target = c(as.integer(row$id) + offsetEdges, as.integer(row$id) + offsetEdges)))
         }
     }
     
@@ -1173,15 +1181,15 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
     }
     
     ## Add nodes to the network
-    nodes <- createNodes(
+    nodes <- RCX::createNodes(
         name = c(nodeNames)
     )
     
     ## Check if a new rcx network has to be created
     if (is.null(rcx)) {
-        rcx <- createRCX(nodes = nodes)
+        rcx <- RCX::createRCX(nodes = nodes)
     } else {
-        rcx <- updateNodes(rcx, nodes)
+        rcx <- RCX::updateNodes(rcx, nodes)
     }
     
     ## Values stores if a node belongs to the left, right or both networks
@@ -1197,47 +1205,47 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
         }
     }
     ## Add the nodeAttribute belongsTo for the color of the node
-    nodeAttributesBelongsTo <- createNodeAttributes(
+    nodeAttributesBelongsTo <- RCX::createNodeAttributes(
         propertyOf = nodes$id,
         name = rep("belongsTo", length(nodes$id)),
         value = values
     )
-    rcx <- updateNodeAttributes(rcx, nodeAttributesBelongsTo)
+    rcx <- RCX::updateNodeAttributes(rcx, nodeAttributesBelongsTo)
     
     ## Add the nodeAttribute type for the shape of the node
     if (matchByName) {
-        nodeAttributesType <- createNodeAttributes(
+        nodeAttributesType <- RCX::createNodeAttributes(
             propertyOf = nodes$id,
             name = rep("shape", length(nodes$id)),
             value = rep("NodeName", length(nodes$id))
         )
-        rcx <- updateNodeAttributes(rcx, nodeAttributesType)
+        rcx <- RCX::updateNodeAttributes(rcx, nodeAttributesType)
         
         ## Add nodeAttribute  size to draw the nodes for the node names bigger
-        nodeAttributesType <- createNodeAttributes(
+        nodeAttributesType <- RCX::createNodeAttributes(
             propertyOf = nodes$id,
             name = rep("size", length(nodes$id)),
             value = rep("large", length(nodes$id))
         )
-        rcx <- updateNodeAttributes(rcx, nodeAttributesType)
+        rcx <- RCX::updateNodeAttributes(rcx, nodeAttributesType)
     } 
     ## MatchByRepresent is set
     else {
         ## add nodeAttribute type for the shape of the node
-        nodeAttributesType <- createNodeAttributes(
+        nodeAttributesType <- RCX::createNodeAttributes(
             propertyOf = nodes$id,
             name = rep("shape", length(nodes$id)),
             value = rep("NodeRepresent", length(nodes$id))
         )
-        rcx <- updateNodeAttributes(rcx, nodeAttributesType)
+        rcx <- RCX::updateNodeAttributes(rcx, nodeAttributesType)
         
         ## add nodeAttribute size to draw the nodes bigger
-        nodeAttributesType <- createNodeAttributes(
+        nodeAttributesType <- RCX::createNodeAttributes(
             propertyOf = nodes$id,
             name = rep("size", length(nodes$id)),
             value = rep("large", length(nodes$id))
         )
-        rcx <- updateNodeAttributes(rcx, nodeAttributesType)
+        rcx <- RCX::updateNodeAttributes(rcx, nodeAttributesType)
     }
     
     ## Check if node names / node represent should be included, too
@@ -1250,34 +1258,33 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
                 ## Check if the represent belongs to the left, right or both networks and create edges to the node with the node name they belong to
                 if (row$belongsToLeft=="TRUE" && row$belongsToRight=="TRUE" && !is.na(row$representLeft) && !is.na(row$representRight)) { 
                     if (row$representLeft == row$representRight) {
-                        rcx <- updateNodes(rcx, createNodes(name = row$representLeft))
-                        rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Both"))                        
-                        rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeRepresent"))
-                        edges <- createEdges(source = offset, target = as.integer(row$id))
-                        rcx <- updateEdges(rcx, edges)
+                        rcx <- RCX::updateNodes(rcx, createNodes(name = row$representLeft))
+                        rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Both"))                        
+                        rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeRepresent"))
+                        edges <- RCX::createEdges(source = offset, target = as.integer(row$id))
+                        rcx <- RCX::updateEdges(rcx, edges)
                     } 
                     else { 
-                        rcx <- updateNodes(rcx, createNodes(name = c(row$representLeft, row$representRight)))
-                        rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(offset, offset + 1), name = rep("belongsTo", 2), value = c("Left", "Right")))
-                        rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(offset, offset + 1), name = rep("shape", 2), value = rep("NodeRepresent", 2)))
-                        edges <- createEdges(source = c(offset, offset + 1), target = c(as.integer(row$id), as.integer(row$id))
-                        )
-                        rcx <- updateEdges(rcx, edges)
+                        rcx <- RCX::updateNodes(rcx, createNodes(name = c(row$representLeft, row$representRight)))
+                        rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(offset, offset + 1), name = rep("belongsTo", 2), value = c("Left", "Right")))
+                        rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(offset, offset + 1), name = rep("shape", 2), value = rep("NodeRepresent", 2)))
+                        edges <- RCX::createEdges(source = c(offset, offset + 1), target = c(as.integer(row$id), as.integer(row$id)))
+                        rcx <- RCX::updateEdges(rcx, edges)
                     }
                 } 
                 else if (row$belongsToLeft=="TRUE" && !is.na(row$representLeft)) { 
-                    rcx <- updateNodes(rcx, createNodes(name = row$representLeft))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Left"))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeRepresent"))
-                    edges <- createEdges(source = as.integer(row$id), target = offset)
-                    rcx <- updateEdges(rcx, edges)
+                    rcx <- RCX::updateNodes(rcx, createNodes(name = row$representLeft))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Left"))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeRepresent"))
+                    edges <- RCX::createEdges(source = as.integer(row$id), target = offset)
+                    rcx <- RCX::updateEdges(rcx, edges)
                 } 
                 else if (row$belongsToRight=="TRUE" && !is.na(row$representRight)) { 
-                    rcx <- updateNodes(rcx, createNodes(name = row$representRight))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Right"))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeRepresent"))
-                    edges <- createEdges(source = as.integer(row$id), target = offset)
-                    rcx <- updateEdges(rcx, edges)
+                    rcx <- RCX::updateNodes(rcx, createNodes(name = row$representRight))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Right"))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeRepresent"))
+                    edges <- RCX::createEdges(source = as.integer(row$id), target = offset)
+                    rcx <- RCX::updateEdges(rcx, edges)
                 }
             } 
             ## MatchByRepresent is set
@@ -1285,45 +1292,33 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
                 ## Check if the node name belongs to the left, right or both networks and create edges to the node with the node represent they belong to
                 if (row$belongsToLeft=="TRUE" && row$belongsToRight=="TRUE" && !is.na(row$nameLeft) && !is.na(row$nameRight)) { 
                     if (row$nameLeft==row$nameRight) {
-                        rcx <- updateNodes(rcx, createNodes(name = row$nameLeft))
-                        rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Both"))                        
-                        rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeName"))
-                        edges <- createEdges(
-                            source = offset,
-                            target = as.integer(row$id)
-                        )
-                        rcx <- updateEdges(rcx, edges)
+                        rcx <- RCX::updateNodes(rcx, createNodes(name = row$nameLeft))
+                        rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Both"))                        
+                        rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeName"))
+                        edges <- RCX::createEdges(source = offset, target = as.integer(row$id))
+                        rcx <- RCX::updateEdges(rcx, edges)
                     } 
                     else { 
-                        rcx <- updateNodes(rcx, createNodes(name = c(row$nameLeft, row$nameRight)))
-                        rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(offset, offset + 1), name = rep("belongsTo", 2), value = c("Left", "Right")))
-                        rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(offset, offset + 1), name = rep("shape", 2), value = rep("NodeName", 2)))
-                        edges <- createEdges(
-                            source = c(offset, offset + 1),
-                            target = c(as.integer(row$id), as.integer(row$id))
-                        )
-                        rcx <- updateEdges(rcx, edges)
+                        rcx <- RCX::updateNodes(rcx, createNodes(name = c(row$nameLeft, row$nameRight)))
+                        rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(offset, offset + 1), name = rep("belongsTo", 2), value = c("Left", "Right")))
+                        rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(offset, offset + 1), name = rep("shape", 2), value = rep("NodeName", 2)))
+                        edges <- RCX::createEdges(source = c(offset, offset + 1), target = c(as.integer(row$id), as.integer(row$id)))
+                        rcx <- RCX::updateEdges(rcx, edges)
                     }
                 } 
                 else if (row$belongsToLeft=="TRUE" && !is.na(row$nameLeft)) { 
-                    rcx <- updateNodes(rcx, createNodes(name = row$nameLeft))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Left"))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeName"))
-                    edges <- createEdges(
-                        source = as.integer(row$id),
-                        target = offset
-                    )
-                    rcx <- updateEdges(rcx, edges)
+                    rcx <- RCX::updateNodes(rcx, createNodes(name = row$nameLeft))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Left"))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeName"))
+                    edges <- RCX::createEdges(source = as.integer(row$id), target = offset)
+                    rcx <- RCX::updateEdges(rcx, edges)
                 } 
                 else if (row$belongsToRight=="TRUE" && !is.na(row$nameRight)) {
-                    rcx <- updateNodes(rcx, createNodes(name = row$nameRight))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Right"))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeName"))
-                    edges <- createEdges(
-                        source = as.integer(row$id),
-                        target = offset
-                    )
-                    rcx <- updateEdges(rcx, edges)
+                    rcx <- RCX::updateNodes(rcx, createNodes(name = row$nameRight))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "belongsTo", value = "Right"))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = offset, name = "shape", value = "NodeName"))
+                    edges <- RCX::createEdges(source = as.integer(row$id), target = offset)
+                    rcx <- RCX::updateEdges(rcx, edges)
                 }
             }
         }
@@ -1490,10 +1485,10 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
     offsetEdgeAttributes = length(rcx$nodes$id)
     
     ## Add name of the edgeAttributes to network
-    edgeAttributes <- createNodes(
+    edgeAttributes <- RCX::createNodes(
         name = edgeAttrDf$name
     )
-    rcx <- updateNodes(rcx, edgeAttributes)
+    rcx <- RCX::updateNodes(rcx, edgeAttributes)
     
     ## Store to which network the edgeAttribute belongs to
     values = c()
@@ -1507,21 +1502,21 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
             values = append(values, "Right")
         }
     }
-    edgeAttrAttributesBelongsTo <- createNodeAttributes(propertyOf = c(offsetEdgeAttributes:(offsetEdgeAttributes+length(edgeAttrDf$propertyOf)-1)),
+    edgeAttrAttributesBelongsTo <- RCX::createNodeAttributes(propertyOf = c(offsetEdgeAttributes:(offsetEdgeAttributes+length(edgeAttrDf$propertyOf)-1)),
                                                         name = rep("belongsTo", length(edgeAttrDf$propertyOf)), value = values)
-    rcx <- updateNodeAttributes(rcx, edgeAttrAttributesBelongsTo)
+    rcx <- RCX::updateNodeAttributes(rcx, edgeAttrAttributesBelongsTo)
     
     ## NodeAttribute 'type' stores that the created nodes represent edgeAttributes
-    edgeAttrAttributesType <- createNodeAttributes(propertyOf = c(offsetEdgeAttributes:(offsetEdgeAttributes+length(edgeAttrDf$propertyOf)-1)),
+    edgeAttrAttributesType <- RCX::createNodeAttributes(propertyOf = c(offsetEdgeAttributes:(offsetEdgeAttributes+length(edgeAttrDf$propertyOf)-1)),
                                                    name = rep("shape", length(edgeAttrDf$propertyOf)), value =  rep("EdgeAttribute", length(edgeAttrDf$propertyOf))
     )
-    rcx <- updateNodeAttributes(rcx, edgeAttrAttributesType)
+    rcx <- RCX::updateNodeAttributes(rcx, edgeAttrAttributesType)
     
     ## Create edges from the edgeAttribute to the node it belongs to
-    edges <- createEdges(source = c(offsetEdgeAttributes:(offsetEdgeAttributes+length(edgeAttrDf$propertyOf)-1)),
+    edges <- RCX::createEdges(source = c(offsetEdgeAttributes:(offsetEdgeAttributes+length(edgeAttrDf$propertyOf)-1)),
                          target = as.integer(edgeAttrDf$propertyOf)+rep(numberOfNodes, length(edgeAttrDf$propertyOf))
     )
-    rcx <- updateEdges(rcx, edges)
+    rcx <- RCX::updateEdges(rcx, edges)
     
     ## Create the nodes with the values for the edgeAttributes
     if (startLayerValues > 0) {
@@ -1530,33 +1525,33 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
             row = edgeAttrDf[i,]
             if ((row$belongsToLeft == "TRUE") && (row$belongsToRight == "TRUE")) { 
                 if (identical(toString(row$valueLeft), toString(row$valueRight))) { 
-                    rcx <- updateNodes(rcx, createNodes(name = row$valueLeft))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = length(rcx$nodes$name) - 1, name = "belongsTo", value = "Both"))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = length(rcx$nodes$name) - 1, name = "shape", value = "EdgeAttributeValue"))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "type", value = "noSharedValue"))
-                    rcx <- updateEdges(rcx, createEdges(source = offsetEdgeAttributes + i - 1, target = length(rcx$nodes$name) - 1))
+                    rcx <- RCX::updateNodes(rcx, createNodes(name = row$valueLeft))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = length(rcx$nodes$name) - 1, name = "belongsTo", value = "Both"))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = length(rcx$nodes$name) - 1, name = "shape", value = "EdgeAttributeValue"))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "type", value = "noSharedValue"))
+                    rcx <- RCX::updateEdges(rcx, createEdges(source = offsetEdgeAttributes + i - 1, target = length(rcx$nodes$name) - 1))
                 } 
                 else { 
-                    rcx <- updateNodes(rcx, createNodes(name = c(row$valueLeft, row$valueRight)))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(length(rcx$nodes$name) - 2, length(rcx$nodes$name) - 1), name = rep("belongsTo", 2), value = c("Left", "Right")))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(length(rcx$nodes$name) - 2, length(rcx$nodes$name) - 1), name = rep("shape", 2), value = rep("EdgeAttributeValue", 2)))
-                    rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(length(rcx$nodes$name) - 2, length(rcx$nodes$name) - 1), name = rep("type", 2), value = rep("sharedValue", 2)))
-                    rcx <- updateEdges(rcx, createEdges(source = rep(offsetEdgeAttributes + i - 1, 2), target = c(length(rcx$nodes$name) - 2, length(rcx$nodes$name) - 1)))
+                    rcx <- RCX::updateNodes(rcx, createNodes(name = c(row$valueLeft, row$valueRight)))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(length(rcx$nodes$name) - 2, length(rcx$nodes$name) - 1), name = rep("belongsTo", 2), value = c("Left", "Right")))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(length(rcx$nodes$name) - 2, length(rcx$nodes$name) - 1), name = rep("shape", 2), value = rep("EdgeAttributeValue", 2)))
+                    rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = c(length(rcx$nodes$name) - 2, length(rcx$nodes$name) - 1), name = rep("type", 2), value = rep("sharedValue", 2)))
+                    rcx <- RCX::updateEdges(rcx, createEdges(source = rep(offsetEdgeAttributes + i - 1, 2), target = c(length(rcx$nodes$name) - 2, length(rcx$nodes$name) - 1)))
                 }
             } 
             else if(row$belongsToLeft == "TRUE") { 
-                rcx <- updateNodes(rcx, createNodes(name = row$valueLeft))
-                rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "belongsTo", value = "Left"))
-                rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "shape", value = "EdgeAttributeValue"))
-                rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "type", value = "noSharedValue"))
-                rcx <- updateEdges(rcx, createEdges(source = offsetEdgeAttributes + i - 1, target = length(rcx$nodes$name) - 1))
+                rcx <- RCX::updateNodes(rcx, createNodes(name = row$valueLeft))
+                rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "belongsTo", value = "Left"))
+                rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "shape", value = "EdgeAttributeValue"))
+                rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "type", value = "noSharedValue"))
+                rcx <- RCX::updateEdges(rcx, createEdges(source = offsetEdgeAttributes + i - 1, target = length(rcx$nodes$name) - 1))
             } 
             else if(row$belongsToRight == "TRUE") { 
-                rcx <- updateNodes(rcx, createNodes(name = row$valueRight))
-                rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "belongsTo", value = "Right"))
-                rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "shape", value = "EdgeAttributeValue"))
-                rcx <- updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "type", value = "noSharedValue"))
-                rcx <- updateEdges(rcx, createEdges(source = offsetEdgeAttributes + i - 1, target = length(rcx$nodes$name) - 1))
+                rcx <- RCX::updateNodes(rcx, createNodes(name = row$valueRight))
+                rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "belongsTo", value = "Right"))
+                rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "shape", value = "EdgeAttributeValue"))
+                rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = (length(rcx$nodes$name) - 1), name = "type", value = "noSharedValue"))
+                rcx <- RCX::updateEdges(rcx, createEdges(source = offsetEdgeAttributes + i - 1, target = length(rcx$nodes$name) - 1))
             }
         }
     }
