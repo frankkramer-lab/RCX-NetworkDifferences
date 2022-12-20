@@ -48,7 +48,7 @@ right <- createRCX(
     edges = createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3"))
 )
 right <- updateNodeAttributes(right, createNodeAttributes(propertyOf = c(0, 1), name = c("type", "type"),value = list("z", c("x", "y"))))
-right <- updateEdgeAttributes(right, createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("k" , c("l", "m"))))
+right <- updateEdgeAttributes(right, createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("n" , c("l", "m"))))
 right <- updateNetworkAttributes(right, createNetworkAttributes(name = c("name", "description"), value = c("right network", "sample network")))
 ```
 Now, we have two RCX-objects and with the `compareNetworks`-function we can track their differences. To illustrate the difference between `matchByName` set to `TRUE` respectively `FALSE`, we define two RCX-objects called `rcxMatchByNameTRUE` and `rcxMatchByNameFALSE`.
