@@ -62,6 +62,65 @@ The `compareNetworks`-function is provided to track the differences regarding th
 
 The function returns an RCX network whereby the `nodes`, `nodeAttributes`, `edges`, and `edgeAttributes` of the right network are appended to the corresponding aspects of the left network. The `networkAttributes` are ignored as it is not possible to append the `networkAttributes` of the right network to the `networkAttributes` of the left network if the `networkAttributes` have the same name. An additional aspect called the `NetworkDifferences` aspect is added to the RCX network. It is a list with the `matchByName`-boolean and five dataframes to track the differences of `nodes`, `nodeAttributes`, `edges`, `edgeAttributes`, and `networkAttributes` of the two RCX objects.
 
+The structure of the returned RCX object is:
+```
+|---nodes: left nodes, right nodes
+|---nodeAttributes: left nodeAttributes, right nodeAttributes
+|---edges: left edges, right edges
+|---edgeAttributes: left edgeAttributes, right edgeAttributes
+|---networkDifferences
+|   |---nodes: differences of the nodes
+|   |   |---id
+|   |   |---name / nameLeft
+|   |   |---representLeft / nameRight
+|   |   |---representRight / nameLeft
+|   |   |---oldIdLeft
+|   |   |---oldIdRight
+|   |   |---belongsToLeft
+|   |   |---belongsToRight
+|   |---nodeAttributes: differences of the nodeAttributes
+|   |   |---name
+|   |   |---propertyOf
+|   |   |---belongsToLeft
+|   |   |---belongsToRight
+|   |   |---dataTypeRight
+|   |   |---dataTypeLeft
+|   |   |---isListLeft
+|   |   |---isListRight
+|   |   |---valueLeft
+|   |   |---valueRight
+|   |---edges: differences of the edges
+|   |   |---id
+|   |   |---source
+|   |   |---target
+|   |   |---interaction
+|   |   |---oldIdLeft
+|   |   |---oldIdRight
+|   |   |---belongsToLeft
+|   |   |---belongsToRight
+|   |---edgeAttributes: differences of the edgeAttributes
+|   |   |---name
+|   |   |---propertyOf
+|   |   |---belongsToLeft
+|   |   |---belongsToRight
+|   |   |---dataTypeRight
+|   |   |---dataTypeLeft
+|   |   |---isListLeft
+|   |   |---isListRight
+|   |   |---valueLeft
+|   |   |---valueRight
+|   |---networkAttributes: differences of the networkAttributes
+|   |   |---name
+|   |   |---belongsToLeft
+|   |   |---belongsToRight
+|   |   |---dataTypeRight
+|   |   |---dataTypeLeft
+|   |   |---isListLeft
+|   |   |---isListRight
+|   |   |---valueLeft
+|   |   |---valueRight
+```
+
 ### The combined RCX network
 The combined network adds the aspects of the right network to the left network. For the `nodes` it is:
 ```{r nodes}
@@ -183,13 +242,14 @@ rcxMatchByNameTRUE$networkDifferences$networkAttributes
 ## The JSON-Conversion
 The aspect can be converted to JSON and back in order to share the object. For the conversion to JSON the `rcxToJSON`-function is provided and returns a string of the json-conversion.
 ```{r rcxToJSON}
-json = rcxToJson.NetworkDifferencesAspect(rcxMatchByNameTRUE, verbose = TRUE)
+json = toCX(rcxMatchByNameTRUE, verbose = TRUE)
 json
 ```
 The reconversion is the responsibility of the function `jsonToRCX`. The json-string has to be parsed and this parsed string can be reconverted to an RCX object with a `NetworkDifferences` aspect. This RCX object is printed and is identical to the original RCX object.
 ```{r JSONToRcx}
 jsonParsed = RCX:::parseJSON(json)
-jsonToRCX.networkDifferencesAspect(jsonParsed, verbose = TRUE)
+rcx = RCX:::processCX(jsonParsed, verbose = TRUE)
+rcx
 ```
 
 ## The Conversion to RCX-objects

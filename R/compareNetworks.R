@@ -729,21 +729,6 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
     return(resultRCX)
 }
 
-#' Title
-#'
-#' @param rcx [RCX object] to which the [networkDifferences] aspect is added
-#' @param netDif [networkDifferences] aspect
-#'
-#' @return [RCX object]
-#' @export
-updateNetworkDifferences = function(rcx, networkDifferences) {
-    ## Check the class of the given networkDifferences aspect
-    if (class(networkDifferences)[2] != "NetworkDifferencesAspect") {
-        stop('aspect must be from the type networkDifferencesAspect')
-    }
-    rcx$networkDifferences <- networkDifferences
-    return(rcx)
-}
 #' Node-centered \code{\link{RCX-object}} for the differences of two RCX-objects
 #' 
 #' Creation of a node-centered \code{\link{RCX-object}} with the information of a *networkDifferences*-aspect to visualize 
