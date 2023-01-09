@@ -88,18 +88,18 @@ rcxToJson.NetworkDifferencesAspect = function(aspect, verbose = FALSE) {
 
 #' @rdname jsonToRCX
 #' @export
-jsonToRCX.networkDifferences = function(jsonData, verbose){
+jsonToRCX.NetworkDifferences = function(jsonData, verbose){
     if(verbose) cat("Parsing networkDifferences...")
     ## matchByName
-    data = jsonData$networkDifferences[[1]]$matchByName
+    jsonData = jsonData[[1]]
     matchByName = TRUE
-    if (data == "false") {
+    if (jsonData[[1]]$matchByName == "false") {
         matchByName = FALSE
     }
     ## nodes
     nodes = data.frame()
     if (matchByName) {
-        data = jsonData$networkDifferences[[2]]$nodes
+        data = jsonData[[2]]$nodes
         id = RCX:::.jsonV(data, "@id")
         name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
         representLeft = RCX:::.jsonV(data, "rl", default = NA, returnAllDefault=TRUE)
@@ -111,7 +111,7 @@ jsonToRCX.networkDifferences = function(jsonData, verbose){
         nodes = data.frame(id, name, representLeft, representRight, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight)
     } 
     else {
-        data = jsonData$networkDifferences[[2]]$nodes
+        data = jsonData[[2]]$nodes
         id = RCX:::.jsonV(data, "@id")
         nameLeft = RCX:::.jsonV(data, "nl", default = NA, returnAllDefault=TRUE)
         nameRight = RCX:::.jsonV(data, "nr", default = NA, returnAllDefault=TRUE)
@@ -123,9 +123,8 @@ jsonToRCX.networkDifferences = function(jsonData, verbose){
         nodes = data.frame(id, nameLeft, nameRight, represent, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight)
     }
     
-    
     ## nodeAttributes
-    data = jsonData$networkDifferences[[3]]$nodeAttributes
+    data = jsonData[[3]]$nodeAttributes
     propertyOf = RCX:::.jsonV(data, "po", default = NA, returnAllDefault=TRUE)
     name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
     belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
@@ -141,7 +140,7 @@ jsonToRCX.networkDifferences = function(jsonData, verbose){
                                 valueLeft, valueRight)
     
     ## edges
-    data = jsonData$networkDifferences[[4]]$edges
+    data = jsonData[[4]]$edges
     id = RCX:::.jsonV(data, "@id")
     source = RCX:::.jsonV(data, "s", default = NA, returnAllDefault=TRUE)
     target = RCX:::.jsonV(data, "t", default = NA, returnAllDefault=TRUE)
@@ -153,7 +152,7 @@ jsonToRCX.networkDifferences = function(jsonData, verbose){
     edges = data.frame(id, source, target, interaction, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight)
     
     ## edgeAttributes
-    data = jsonData$networkDifferences[[5]]$edgeAttributes
+    data = jsonData[[5]]$edgeAttributes
     propertyOf = RCX:::.jsonV(data, "po", default = NA, returnAllDefault=TRUE)
     name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
     belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
@@ -169,7 +168,7 @@ jsonToRCX.networkDifferences = function(jsonData, verbose){
                                 valueLeft, valueRight)
     
     ## networkAttributes
-    data = jsonData$networkDifferences[[6]]$networkAttributes
+    data = jsonData[[6]]$networkAttributes
     name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
     belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
     belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
@@ -185,7 +184,7 @@ jsonToRCX.networkDifferences = function(jsonData, verbose){
     if(verbose) cat("create aspect...")
     result = list("matchByName" = matchByName, "nodes" = nodes, "nodeAttributes" = nodeAttributes,
                   "edges" = edges, "edgeAttributes" = edgeAttributes, "networkAttributes" = networkAttributes)
-    class(result) = c(class(result), "networkDifferences")
+    class(result) = c(class(result), "NetworkDifferencesAspect")
     if(verbose) cat("done!\n")
     return(result)
 }

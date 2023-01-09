@@ -29,27 +29,28 @@ The `NetworkDifferences` aspect allows the tracking and visualization of the dif
 The `NetworkDifferences` aspect website is available at https://github.com/frankkramer-lab/RCX-NetworkDifferences  
 The basis for this package is the RCX package by Florian Auer. The json-based datastructure CX is often used to store biological networks and the RCX package adapts the CX format to standard R data formats to create and modify, load, export, and visualize networks. 
 ```{r library, echo=FALSE, message=FALSE, include = FALSE}
-library(RCXNetworkDifferences)
+library(RCX)
+#library(RCXNetworkDifferences)
 source('/home/n/R/RCX-NetworkDifferences/R/compareNetworks.R')
 source('/home/n/R/RCX-NetworkDifferences/R/json.R')
 ```
 The `NetworkDifferences` aspect tracks the differences of two networks, represented as RCX-objects. First, two RCX-objects `left` and `right` are created that will be used as examples later.
 ```{r left right}
-left <- createRCX(
-    nodes = createNodes(id=0:2, name=c("A","B","C"), represents=c("r1","r2","r3")),
-    edges = createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3"))
+left <- RCX::createRCX(
+    nodes = RCX::createNodes(id=0:2, name=c("A","B","C"), represents=c("r1","r2","r3")),
+    edges = RCX::createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3")),
+    nodeAttributes = RCX::createNodeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("w", c("x", "y"))),
+    edgeAttributes = RCX::createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = c("k", "l")),
+    networkAttributes = RCX::createNetworkAttributes(name = c("name", "author"), value = c("left network", "Donald Duck"))
 )
-left <- updateNodeAttributes(left, createNodeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("w", c("x", "y"))))
-left <- updateEdgeAttributes(left, createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = c("k", "l")))
-left <- updateNetworkAttributes(left, createNetworkAttributes(name = c("name", "author"), value = c("left network", "Donald Duck")))
 
-right <- createRCX(
-    nodes = createNodes(name = c("A", "B", "X"), represents = c ("r1", "r4", "r5")),
-    edges = createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3"))
+right <- RCX::createRCX(
+    nodes = RCX::createNodes(name = c("A", "B", "X"), represents = c ("r1", "r4", "r5")),
+    edges = RCX::createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3")),
+    nodeAttributes = RCX::createNodeAttributes(propertyOf = c(0, 1), name = c("type", "type"),value = list("z", c("x", "y"))),
+    edgeAttributes = RCX::createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("n" , c("l", "m"))),
+    networkAttributes = RCX::createNetworkAttributes(name = c("name", "description"), value = c("right network", "sample network"))
 )
-right <- updateNodeAttributes(right, createNodeAttributes(propertyOf = c(0, 1), name = c("type", "type"),value = list("z", c("x", "y"))))
-right <- updateEdgeAttributes(right, createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("n" , c("l", "m"))))
-right <- updateNetworkAttributes(right, createNetworkAttributes(name = c("name", "description"), value = c("right network", "sample network")))
 ```
 Now, we have two RCX-objects and with the `compareNetworks`-function we can track their differences. To illustrate the difference between `matchByName` set to `TRUE` respectively `FALSE`, we define two RCX-objects called `rcxMatchByNameTRUE` and `rcxMatchByNameFALSE`.
 ```{r compareNetworks}
@@ -259,7 +260,7 @@ The elements that exist in both RCX-objects are colored gray, the elements that 
 The shapes for the nodes are: 
 
 | RCX Element           | Shape                         |
-| ----------------------|:-----------------------------:|
+| ----------------------|-------------------------------|
 | node names            | round                         |
 | node represents       | triangle                      |
 | edge                  | rectangle                     |
