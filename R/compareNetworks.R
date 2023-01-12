@@ -60,12 +60,14 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
         }
     }
     # Update the source and target of the right networks
-    rightEdgesUpdated <- right$edges
-    for (i in c(1:nrow(rightEdgesUpdated))) {
-        rightEdgesUpdated[i,]$source = rightNodes[rightNodes$oldId == rightEdgesUpdated[i,]$source,]$id
-        rightEdgesUpdated[i,]$target = rightNodes[rightNodes$oldId == rightEdgesUpdated[i,]$target,]$id
+    if (length(right$edges$source) > 0) {
+        rightEdgesUpdated <- right$edges
+        for (i in c(1:nrow(rightEdgesUpdated))) {
+            rightEdgesUpdated[i,]$source = rightNodes[rightNodes$oldId == rightEdgesUpdated[i,]$source,]$id
+            rightEdgesUpdated[i,]$target = rightNodes[rightNodes$oldId == rightEdgesUpdated[i,]$target,]$id
+        }
+        resultRCX <- updateEdges(resultRCX, edges = rightEdgesUpdated, keepOldIds = TRUE)
     }
-    resultRCX <- updateEdges(resultRCX, edges = rightEdgesUpdated, keepOldIds = TRUE)
     # Update propertyOf from the right network
     if (length(right$edgeAttributes$propertyOf) > 0) {
         rightEdgeAttrUpdated <- right$edgeAttributes
@@ -724,7 +726,7 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
     netDiff = list("matchByName" = matchByName, "nodes" = nodes, "nodeAttributes" = nodeAttributes, "edges" = edges, 
                    "edgeAttributes" = edgeAttributes, "networkAttributes" = networkAttributes)
     class(netDiff) = c(class(netDiff), "NetworkDifferencesAspect")
-    resultRCX <- updateNetworkDifferences(resultRCX, netDiff)
+    resultRCX$networkDifferences <- netDiff
     ## Return result
     return(resultRCX)
 }

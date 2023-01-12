@@ -81,14 +81,17 @@ rcxToJson.NetworkDifferencesAspect = function(aspect, verbose = FALSE) {
     ## Create result
     json = paste0('{"matchByName":',aspect$matchByName,'},{"nodes":',aspect$nodes,'},{"nodeAttributes":',aspect$nodeAttributes,
                   '},{"edges":',aspect$edges,'},{"edgeAttributes":',aspect$edgeAttributes,'},{"networkAttributes":',aspect$networkAttributes,'}')
-    json = paste0('{"NetworkDifferences":[',json,']}')
+    json = paste0('{"NetworkDifferencesAspect":[',json,']}')
     if(verbose) cat("done!\n")
     return(json)
 }
 
 #' @rdname jsonToRCX
 #' @export
-jsonToRCX.NetworkDifferences = function(jsonData, verbose){
+jsonToRCX.NetworkDifferencesAspect = function(jsonData, verbose){
+    
+    RCX:::updateAspectClasses(aspectClasses, c(networkDifferences="NetworkDifferencesAspect"))
+    #print(aspectClasses)
     if(verbose) cat("Parsing networkDifferences...")
     ## matchByName
     jsonData = jsonData[[1]]
@@ -124,63 +127,109 @@ jsonToRCX.NetworkDifferences = function(jsonData, verbose){
     }
     
     ## nodeAttributes
+    nodeAttributes = data.frame(propertyOf=character(),
+                                name=character(),
+                                belongsToLeft=character(),
+                                belongsToRight=character(),
+                                dataTypeLeft=character(),
+                                dataTypeRight=character(),
+                                isListLeft=character(),
+                                isListRight=character(),
+                                valueLeft=character(),
+                                valueRight=character())
     data = jsonData[[3]]$nodeAttributes
-    propertyOf = RCX:::.jsonV(data, "po", default = NA, returnAllDefault=TRUE)
-    name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
-    belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
-    belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
-    dataTypeLeft = RCX:::.jsonV(data, "dtl", default = NA, returnAllDefault=TRUE)
-    dataTypeRight = RCX:::.jsonV(data, "dtr", default = NA, returnAllDefault=TRUE)
-    isListLeft = RCX:::.jsonV(data, "ill", default = NA, returnAllDefault=TRUE)
-    isListRight = RCX:::.jsonV(data, "ilr", default = NA, returnAllDefault=TRUE)
-    valueLeft = RCX:::.jsonV(data, "vl", default = NA, returnAllDefault=TRUE) 
-    valueRight = RCX:::.jsonV(data, "vr", default = NA, returnAllDefault=TRUE)
-    nodeAttributes = data.frame(propertyOf, name, belongsToLeft, belongsToRight, 
-                                dataTypeLeft, dataTypeRight, isListLeft, isListRight,
-                                valueLeft, valueRight)
+    if (length(data) > 0) {
+        propertyOf = RCX:::.jsonV(data, "po", default = NA, returnAllDefault=TRUE)
+        name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
+        belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
+        belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
+        dataTypeLeft = RCX:::.jsonV(data, "dtl", default = NA, returnAllDefault=TRUE)
+        dataTypeRight = RCX:::.jsonV(data, "dtr", default = NA, returnAllDefault=TRUE)
+        isListLeft = RCX:::.jsonV(data, "ill", default = NA, returnAllDefault=TRUE)
+        isListRight = RCX:::.jsonV(data, "ilr", default = NA, returnAllDefault=TRUE)
+        valueLeft = RCX:::.jsonV(data, "vl", default = NA, returnAllDefault=TRUE) 
+        valueRight = RCX:::.jsonV(data, "vr", default = NA, returnAllDefault=TRUE)
+        nodeAttributes = data.frame(propertyOf, name, belongsToLeft, belongsToRight, 
+                                    dataTypeLeft, dataTypeRight, isListLeft, isListRight,
+                                    valueLeft, valueRight)
+    }
     
     ## edges
+    edges = data.frame(id=character(),
+                       source=character(),
+                       target=character(),
+                       interaction=character(),
+                       oldIdLeft=character(),
+                       oldIdRight=character(),
+                       belongsToLeft=character(),
+                       belongsToRight=character())
     data = jsonData[[4]]$edges
-    id = RCX:::.jsonV(data, "@id")
-    source = RCX:::.jsonV(data, "s", default = NA, returnAllDefault=TRUE)
-    target = RCX:::.jsonV(data, "t", default = NA, returnAllDefault=TRUE)
-    interaction = RCX:::.jsonV(data, "i", default = NA, returnAllDefault=TRUE)
-    oldIdLeft = RCX:::.jsonV(data, "oil", default = NA, returnAllDefault=TRUE)
-    oldIdRight  = RCX:::.jsonV(data, "oir", default = NA, returnAllDefault=TRUE)
-    belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
-    belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
-    edges = data.frame(id, source, target, interaction, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight)
+    if (length(data) > 0) {
+        id = RCX:::.jsonV(data, "@id")
+        source = RCX:::.jsonV(data, "s", default = NA, returnAllDefault=TRUE)
+        target = RCX:::.jsonV(data, "t", default = NA, returnAllDefault=TRUE)
+        interaction = RCX:::.jsonV(data, "i", default = NA, returnAllDefault=TRUE)
+        oldIdLeft = RCX:::.jsonV(data, "oil", default = NA, returnAllDefault=TRUE)
+        oldIdRight  = RCX:::.jsonV(data, "oir", default = NA, returnAllDefault=TRUE)
+        belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
+        belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
+        edges = data.frame(id, source, target, interaction, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight)
+    }
     
     ## edgeAttributes
+    edgeAttributes = data.frame(propertyOf=character(),
+                                name=character(),
+                                belongsToLeft=character(),
+                                belongsToRight=character(),
+                                dataTypeLeft=character(),
+                                dataTypeRight=character(),
+                                isListLeft=character(),
+                                isListRight=character(),
+                                valueLeft=character(),
+                                valueRight=character())
     data = jsonData[[5]]$edgeAttributes
-    propertyOf = RCX:::.jsonV(data, "po", default = NA, returnAllDefault=TRUE)
-    name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
-    belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
-    belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
-    dataTypeLeft = RCX:::.jsonV(data, "dtl", default = NA, returnAllDefault=TRUE)
-    dataTypeRight = RCX:::.jsonV(data, "dtr", default = NA, returnAllDefault=TRUE)
-    isListLeft = RCX:::.jsonV(data, "ill", default = NA, returnAllDefault=TRUE)
-    isListRight = RCX:::.jsonV(data, "ilr", default = NA, returnAllDefault=TRUE)
-    valueLeft = RCX:::.jsonV(data, "vl", default = NA, returnAllDefault=TRUE) 
-    valueRight = RCX:::.jsonV(data, "vr", default = NA, returnAllDefault=TRUE)
-    edgeAttributes = data.frame(propertyOf, name, belongsToLeft, belongsToRight, 
-                                dataTypeLeft, dataTypeRight, isListLeft, isListRight,
-                                valueLeft, valueRight)
+    if (length(data) > 0) {
+        propertyOf = RCX:::.jsonV(data, "po", default = NA, returnAllDefault=TRUE)
+        name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
+        belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
+        belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
+        dataTypeLeft = RCX:::.jsonV(data, "dtl", default = NA, returnAllDefault=TRUE)
+        dataTypeRight = RCX:::.jsonV(data, "dtr", default = NA, returnAllDefault=TRUE)
+        isListLeft = RCX:::.jsonV(data, "ill", default = NA, returnAllDefault=TRUE)
+        isListRight = RCX:::.jsonV(data, "ilr", default = NA, returnAllDefault=TRUE)
+        valueLeft = RCX:::.jsonV(data, "vl", default = NA, returnAllDefault=TRUE) 
+        valueRight = RCX:::.jsonV(data, "vr", default = NA, returnAllDefault=TRUE)
+        edgeAttributes = data.frame(propertyOf, name, belongsToLeft, belongsToRight, 
+                                    dataTypeLeft, dataTypeRight, isListLeft, isListRight,
+                                    valueLeft, valueRight)
+    }
     
     ## networkAttributes
+    networkAttributes = data.frame(name=character(),
+                                belongsToLeft=character(),
+                                belongsToRight=character(),
+                                dataTypeLeft=character(),
+                                dataTypeRight=character(),
+                                isListLeft=character(),
+                                isListRight=character(),
+                                valueLeft=character(),
+                                valueRight=character())
     data = jsonData[[6]]$networkAttributes
-    name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
-    belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
-    belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
-    dataTypeLeft = RCX:::.jsonV(data, "dtl", default = NA, returnAllDefault=TRUE)
-    dataTypeRight = RCX:::.jsonV(data, "dtr", default = NA, returnAllDefault=TRUE)
-    isListLeft = RCX:::.jsonV(data, "ill", default = NA, returnAllDefault=TRUE)
-    isListRight = RCX:::.jsonV(data, "ilr", default = NA, returnAllDefault=TRUE)
-    valueLeft = RCX:::.jsonV(data, "vl", default = NA, returnAllDefault=TRUE) 
-    valueRight = RCX:::.jsonV(data, "vr", default = NA, returnAllDefault=TRUE)
-    networkAttributes = data.frame(name, belongsToLeft, belongsToRight, 
-                                   dataTypeLeft, dataTypeRight, isListLeft, isListRight,
-                                   valueLeft, valueRight)
+    if (length(data) > 0) {
+        name = RCX:::.jsonV(data, "n", default = NA, returnAllDefault=TRUE)
+        belongsToLeft = RCX:::.jsonV(data, "btl", default = NA, returnAllDefault=TRUE)
+        belongsToRight = RCX:::.jsonV(data, "btr", default = NA, returnAllDefault=TRUE)
+        dataTypeLeft = RCX:::.jsonV(data, "dtl", default = NA, returnAllDefault=TRUE)
+        dataTypeRight = RCX:::.jsonV(data, "dtr", default = NA, returnAllDefault=TRUE)
+        isListLeft = RCX:::.jsonV(data, "ill", default = NA, returnAllDefault=TRUE)
+        isListRight = RCX:::.jsonV(data, "ilr", default = NA, returnAllDefault=TRUE)
+        valueLeft = RCX:::.jsonV(data, "vl", default = NA, returnAllDefault=TRUE) 
+        valueRight = RCX:::.jsonV(data, "vr", default = NA, returnAllDefault=TRUE)
+        networkAttributes = data.frame(name, belongsToLeft, belongsToRight, 
+                                       dataTypeLeft, dataTypeRight, isListLeft, isListRight,
+                                       valueLeft, valueRight)
+    }
+
     if(verbose) cat("create aspect...")
     result = list("matchByName" = matchByName, "nodes" = nodes, "nodeAttributes" = nodeAttributes,
                   "edges" = edges, "edgeAttributes" = edgeAttributes, "networkAttributes" = networkAttributes)

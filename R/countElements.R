@@ -7,7 +7,7 @@
 #' This function implements the function for the [NetworkDifferences] aspect.
 #'
 #' @param x an object of [NetworkDifferences] aspect class.
-#' @return integer; number of elements.
+#' @return integer; number of elements which is always 1.
 #'
 #' @seealso [RCX::countElements()], [RCX::hasIds()], [RCX::idProperty()], [RCX::refersTo()], [RCX::referredBy()], [RCX::maxId()]
 #'
