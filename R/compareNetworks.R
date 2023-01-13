@@ -1,11 +1,13 @@
-#' Aspect for tracking the differences of two RCX-objects
+#' Tracking the differences of two RCX-objects
 #' 
 #' @details 
 #' The left and right \code{\link{RCX-object}} are compared regarding the differences of the node, nodeAttributes, edges, edgeAttributes, and networkAttributes.
+#' An \code{\link{RCX-object}} is created and the nodes, nodeAttributes, edges, and edgeAttributes of this RCX object are created by appending the aspects of 
+#' the right network to the aspects of the left network (some values like the ids, propertyOf are updated). An additional aspect, a networkDifferences-aspect,
+#' is assigned to the \code{\link{RCX-object}} and this networkDifferences-aspects tracks the differences that are described in the following section.
 #' 
 #' Two nodes are equal when their names/represents (depending on *matchByName*) are equal. 
-#' The networkDifferences can only be created if the RCX-objects have names for their nodes (if *matchByName* `TRUE`) or
-#' represents for their nodes (if *matchByName* `FALSE`).
+#' The networkDifferences aspect can only be created if the RCX-objects have names for their nodes (if *matchByName* `TRUE`) or represents for their nodes (if *matchByName* `FALSE`).
 #' The columns for the the nodes-dataframe are: (*matchByName* `TRUE`) id, name, representLeft, representRight, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight,
 #' (*matchByName* `FALSE`) id, nameLeft, nameRight, represent, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight.
 #' The ids start at zero and each node is assigned a new id.
@@ -14,7 +16,7 @@
 #' The columns for the nodeAttributes-dataframe are: propertyOf, name, belongsToLeft, belongsToRight, dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
 #' 
 #' Two edges are equal if their sources and targets are equal (names/represents depending on *matchByName*) and if their interactions are equal or both interactions do not have a value (NA-value). 
-#' The edges are undirected that means that the source and target can be switched, more precisely the edges e1=(s, t) and e2=(t,s) would be equal.
+#' The edges are undirected that means that the source and target can be switched.
 #' If one interaction has no value (NA) and the other interaction has a value, the edges are different.
 #' The columns for the edge-dataframe are: id, source, target, interaction, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight.
 #' The ids start to ascend from zero.
@@ -25,19 +27,17 @@
 #' Two networkAttributes are equal if the names are equal.
 #' The columns for the networkAttributes-dataframe are: name, belongsToLeft, belongsToRight, dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
 #' 
-#' @param left \code{\link{RCX-object}} that is compared with the right network
-#' @param right \code{\link{RCX-object}} that is compared with the left network
+#' @param left \code{\link{RCX-object}} that is compared to the right network
+#' @param right \code{\link{RCX-object}} that is compared to the left network
 #' @param matchByName logical (optional default value `TRUE`); if *matchByName* is `TRUE`, two nodes are equal when their names are equal, 
 #' if *matchByName* is `FALSE`, two nodes are equal when their represents are equal.
 #'
-#' @return list-object that consists of the *matchByName-boolean* and five dataframes for the differences of the tracked aspects
+#' @return \code{\link{RCX-object}}
 #' 
 #' @note The execution of the function is interrupted and a warning message is displayed if *matchByName* is `TRUE` and one or both networks do not have names for their nodes.
 #' It works analogously if *matchByName* is `FALSE` and one or both networks do not have represents for their nodes. 
 #' 
-#' @importFrom RCX Defaults
-#' 
-#' @name createNetworkDifferences
+#' @name compareNetworks
 #' @export
 compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
     ## Stop if the network cannot be created.
@@ -92,8 +92,6 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
         stop('NetworkDifferences cannot be created when one network does not have nodes')
     }
     ## Create result dataframe for the nodes.
-    ## Dataframe is changed later, if matchByName=TRUE "represent" is named representLeft" and the column "representRight" is added in order to track 
-    ## different represents with same name (analogously with matchByRepresents and names)
     nodes = data.frame(
         id = c(0:(length(left$nodes$id)-1)), 
         name = rep(NA, length(left$nodes$id)),
@@ -137,7 +135,7 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
                 if (existRepresentRight) {
                     nodes$representRight[index] = right$nodes[right$nodes$name == node,]$represent
                 }
-                ## Add the id the node has in the right network
+                ## Add the right id
                 nodes$oldIdRight[index] = right$nodes[right$nodes$name == node,]$id
             } 
             ## Node name does not exists and a new row is added
@@ -156,7 +154,7 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
     } 
     ## MatchByRepresents
     else { 
-        ## The left network has represents for the nodes and that can be added to the dataframe
+        ## The left network has represents for the nodes that can be added to the dataframe
         nodes$represent <- left$nodes$represent
         
         ## Check if the left and right networks have names for the nodes
@@ -731,28 +729,6 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
     return(resultRCX)
 }
 
-#' Update NetworkDifferencesAspect
-#'
-#' This functions updates an [NetworkDifferences] aspect with an other [NetworkDifferences] aspect or within an \link[RCX:createRCX]{RCX object}.
-#'
-#' @param x \link[RCX:createRCX]{RCX object} or [MetaRelSubNetVis] object; (to which the new [MetaRelSubNetVis] will be added)
-#' @param metaRelSubNetVis [MetaRelSubNetVis] object; (the [MetaRelSubNetVis] aspect, that will be added)
-#' @param ... additional parameters
-#'
-#' @return updated \link[RCX:createRCX]{RCX object} or [NetworkDifferences] object
-#' @seealso [RCX::updateNodeAttributes], [RCX::updateEdgeAttributes], [RCX::updateNetworkAttributes]
-#' @export
-#'
-#' @example
-updateNetworkDifferences = function(x, networkDifferences, ...){
-    ## Check the class of the given networkDifferences aspect
-    if (class(networkDifferences)[2] != "NetworkDifferencesAspect") {
-        stop('aspect must be from the type networkDifferencesAspect')
-    }
-    x$networkDifferences <- networkDifferences
-    return(x)
-}
-
 #' Node-centered \code{\link{RCX-object}} for the differences of two RCX-objects
 #' 
 #' Creation of a node-centered \code{\link{RCX-object}} with the information of a *networkDifferences*-aspect to visualize 
@@ -872,7 +848,7 @@ exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALS
 #' 
 #' Creation of an edge-centered RCX-object with the information of a *networkDifferences*-aspect to visualize 
 #' the differences of two RCX-objects.
-#' rcxNodeNetwork
+#' 
 #' @details 
 #' A \code{\link{RCX-object}} is created with nodes for the edge interaction, nodes for the names of the edgeAttributes 
 #' (if *startLayerAttributes* greater than *startLayerLeftRight*), nodes for the values of the edgeAttributes (if *startLayerValues* is greater than *startLayerAttributes*). 
@@ -1053,7 +1029,6 @@ exportDifferencesToEdgeNetwork <- function(aspect=NULL, dX=70, dY=70, startLayer
 #' @return \code{\link{RCX-object}}
 #' 
 #' @name exportDifferencesToNodeEdgeNetwork
-#' 
 #' @export
 exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents=FALSE, dX=70, dY=70, startLayerBoth=5, 
                                                startLayerLeftRight=10, startLayerAttributes=0, startLayerValues=0) {
@@ -1233,6 +1208,16 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
     return(rcx)
 }
 
+#' Helper function to include the represent for the functions *.diffAddNodes*
+#'
+#' @param rcx RCX-object to which the represent should be added
+#' @param rowId 
+#' @param nodeName name for the new node
+#' @param offset 
+#' @param belongsTo character, if the node represent belongs to the left, right or both networks
+#' @param shape character
+#'
+#' @return
 .addNodeRepresent <- function(rcx, rowId, nodeName, offset, belongsTo, shape){
     rcx <- RCX::updateNodes(rcx, createNodes(name = nodeName))
     rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = rep(offset, 2), name = c("belongsTo", "shape"), value = c(belongsTo, shape)))

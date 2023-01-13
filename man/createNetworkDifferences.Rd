@@ -12,11 +12,11 @@ compareNetworks(left = NULL, right = NULL, matchByName = TRUE)
 
 \item{right}{\code{\link{RCX-object}} that is compared with the left network}
 
-\item{matchByName}{logical (optional default value `TRUE`); if *matchByName* is `TRUE`, two nodes are equal when their names are equal, 
-if *matchByName* is `FALSE`, two nodes are equal when their represents are equal.}
+\item{matchByName}{logical (optional default value \code{TRUE}); if \emph{matchByName} is \code{TRUE}, two nodes are equal when their names are equal,
+if \emph{matchByName} is \code{FALSE}, two nodes are equal when their represents are equal.}
 }
 \value{
-list-object that consists of the *matchByName-boolean* and five dataframes for the differences of the tracked aspects
+list-object that consists of the \emph{matchByName-boolean} and five dataframes for the differences of the tracked aspects
 }
 \description{
 Aspect for tracking the differences of two RCX-objects
@@ -24,17 +24,17 @@ Aspect for tracking the differences of two RCX-objects
 \details{
 The left and right \code{\link{RCX-object}} are compared regarding the differences of the node, nodeAttributes, edges, edgeAttributes, and networkAttributes.
 
-Two nodes are equal when their names/represents (depending on *matchByName*) are equal. 
-The networkDifferences can only be created if the RCX-objects have names for their nodes (if *matchByName* `TRUE`) or
-represents for their nodes (if *matchByName* `FALSE`).
-The columns for the the nodes-dataframe are: (*matchByName* `TRUE`) id, name, representLeft, representRight, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight,
-(*matchByName* `FALSE`) id, nameLeft, nameRight, represent, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight.
+Two nodes are equal when their names/represents (depending on \emph{matchByName}) are equal.
+The networkDifferences can only be created if the RCX-objects have names for their nodes (if \emph{matchByName} \code{TRUE}) or
+represents for their nodes (if \emph{matchByName} \code{FALSE}).
+The columns for the the nodes-dataframe are: (\emph{matchByName} \code{TRUE}) id, name, representLeft, representRight, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight,
+(\emph{matchByName} \code{FALSE}) id, nameLeft, nameRight, represent, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight.
 The ids start at zero and each node is assigned a new id.
 
-Two nodeAttributes are equal if they belong to the same node name / represent (depending on *matchByName*-boolean) and if the names are written the same.
+Two nodeAttributes are equal if they belong to the same node name / represent (depending on \emph{matchByName}-boolean) and if the names are written the same.
 The columns for the nodeAttributes-dataframe are: propertyOf, name, belongsToLeft, belongsToRight, dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
 
-Two edges are equal if their sources and targets are equal (names/represents depending on *matchByName*) and if their interactions are equal or both interactions do not have a value (NA-value). 
+Two edges are equal if their sources and targets are equal (names/represents depending on \emph{matchByName}) and if their interactions are equal or both interactions do not have a value (NA-value).
 The edges are undirected that means that the source and target can be switched, more precisely the edges e1=(s, t) and e2=(t,s) would be equal.
 If one interaction has no value (NA) and the other interaction has a value, the edges are different.
 The columns for the edge-dataframe are: id, source, target, interaction, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight.
@@ -47,6 +47,6 @@ Two networkAttributes are equal if the names are equal.
 The columns for the networkAttributes-dataframe are: name, belongsToLeft, belongsToRight, dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
 }
 \note{
-The execution of the function is interrupted and a warning message is displayed if *matchByName* is `TRUE` and one or both networks do not have names for their nodes.
-It works analogously if *matchByName* is `FALSE` and one or both networks do not have represents for their nodes.
+The execution of the function is interrupted and a warning message is displayed if \emph{matchByName} is \code{TRUE} and one or both networks do not have names for their nodes.
+It works analogously if \emph{matchByName} is \code{FALSE} and one or both networks do not have represents for their nodes.
 }

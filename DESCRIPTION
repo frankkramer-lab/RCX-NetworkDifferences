@@ -11,7 +11,7 @@ License: MIT + file LICENSE
 Depends:
     R (>= 4.0.0),
     RCX
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Suggests: BiocStyle,
     knitr,

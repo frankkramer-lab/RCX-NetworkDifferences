@@ -1,18 +1,27 @@
-#' @rdname custom-print
+#' Printing the NetworkDifferences aspect
+#'
+#' These functions attempt to print the aspect of an RCX object in a more readable form.
+#'
+#' @param x NetworkDifferences aspect
+#' @param ... further arguments passed to or from other methods. See [base::print()]
+#'
+#' @return prints the NetworkDifferences aspect and returns it invisibly ([invisible](x))
 #' @export
-print.NetworkDifferencesAspect = function(aspect) {
+#' @name print
+print.NetworkDifferencesAspect = function(x) {
     cat("Network differences:\n")
     cat("MatchByName:\n")
-    cat(aspect$matchByName)
+    cat(x$matchByName)
     cat("\n")
     cat("Nodes:\n")
-    print(aspect$nodes)
+    print(x$nodes)
     cat("NodeAttributes:\n")
-    print(aspect$nodeAttributes)
+    print(x$nodeAttributes)
     cat("Edges:\n")
-    print(aspect$edges)
+    print(x$edges)
     cat("EdgeAttributes:\n")
-    print(aspect$edgeAttributes)
+    print(x$edgeAttributes)
     cat("NetworkAttributes:\n")
-    print(aspect$networkAttributes)
+    print(x$networkAttributes)
+    invisible(x)
 }

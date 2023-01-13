@@ -10,13 +10,6 @@
 #' @seealso [RCX::updateNodeAttributes], [RCX::updateEdgeAttributes], [RCX::updateNetworkAttributes]
 #' @export
 updateNetworkDifferences = function(x, networkDifferences, ...){
-    UseMethod("updateNetworkDifferences", x)
-}
-
-
-#' @rdname updateNetworkDifferences
-#' @export
-updateNetworkDifferences.NetworkDifferencesAspect = function(x, networkDifferences, ...){
     ## Check the class of the given networkDifferences aspect
     if (class(networkDifferences)[2] != "NetworkDifferencesAspect") {
         stop('aspect must be from the type networkDifferencesAspect')

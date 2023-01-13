@@ -18,48 +18,48 @@ exportDifferencesToNodeEdgeNetwork(
 \arguments{
 \item{aspect}{networkDifferences-aspect; information about the differences of two RCX-objects}
 
-\item{includeNamesAndRepresents}{logical (optional, default value `FALSE`); if set to `TRUE`, nodes for node names and 
+\item{includeNamesAndRepresents}{logical (optional, default value \code{FALSE}); if set to \code{TRUE}, nodes for node names and
 node represents are created}
 
 \item{dX}{integer (optional, default value 70); determines the width of the created circles}
 
 \item{dY}{integer (optional, default value 70); determines the height of the created circles}
 
-\item{startLayerBoth}{integer (optional, default value 5); determines the layer at which the circles for the nodes that 
+\item{startLayerBoth}{integer (optional, default value 5); determines the layer at which the circles for the nodes that
 belong to both RCX-objects start}
 
-\item{startLayerLeftRight}{integer (optional, default value 10); determines the layer at which the circles for the nodes that belong only 
+\item{startLayerLeftRight}{integer (optional, default value 10); determines the layer at which the circles for the nodes that belong only
 to one RCX-object start}
 
-\item{startLayerAttributes}{integer (optional, default value 0); if greater than *startLayerLeftRight*, it determines the layer at which 
+\item{startLayerAttributes}{integer (optional, default value 0); if greater than \emph{startLayerLeftRight}, it determines the layer at which
 the circles for the names of the nodesAttributes start}
 
-\item{startLayerValues}{integer (optional, default value 0); if greater than *startLayerAttributes*, it determines the layer at which 
+\item{startLayerValues}{integer (optional, default value 0); if greater than \emph{startLayerAttributes}, it determines the layer at which
 the circle for the values of the nodesAttribute start}
 }
 \value{
 \code{\link{RCX-object}}
 }
 \description{
-Creation of a node-centered RCX-object with the information of a *networkDifferences*-aspect to visualize 
+Creation of a node-centered RCX-object with the information of a \emph{networkDifferences}-aspect to visualize
 the differences of two RCX-objects.
 }
 \details{
-A \code{\link{RCX-object}} is created with nodes for the node names / represents (depending on *includeNamesAndRepresents*), 
-nodes for the edges, nodes for the names of the node- and edgeAttributes (if *startLayerAttributes* greater than *startLayerLeftRight*), nodes for the values of the 
-node- and edgeAttributes (if *startLayerValues* is greater than *startLayerAttributes*). 
+A \code{\link{RCX-object}} is created with nodes for the node names / represents (depending on \emph{includeNamesAndRepresents}),
+nodes for the edges, nodes for the names of the node- and edgeAttributes (if \emph{startLayerAttributes} greater than \emph{startLayerLeftRight}), nodes for the values of the
+node- and edgeAttributes (if \emph{startLayerValues} is greater than \emph{startLayerAttributes}).
 
 The networkAttributes are ignored as they are not considered to very important.
 
-Node shape in the visualization: Node name: round, node represent: triangle, edge: rectangle, name of nodeAttribute: hexagon, 
+Node shape in the visualization: Node name: round, node represent: triangle, edge: rectangle, name of nodeAttribute: hexagon,
 value of nodeAttribute: parallelogram, name of edgeAttribute: rectangle with round corner, value of edgeAttribute: diamond
 
 Color of the network-elements: light blue: only belongs to the left network, gray: belongs to both networks, orange: belongs only to the right network
 
-If there are edges between two nodes in the left or right RCX-objects, edges between the node for the edge and the nodes that 
+If there are edges between two nodes in the left or right RCX-objects, edges between the node for the edge and the nodes that
 represent the source / target node are defined.
-If *includeNamesAndRepresents* is `TRUE`, edges between the nodes for the node and node represent are defined.
+If \emph{includeNamesAndRepresents} is \code{TRUE}, edges between the nodes for the node and node represent are defined.
 If nodes for the names of the node- and edgeAttributes are included, edges between these nodes and the node they belong to are defined.
-If nodes for the values of the node- and edgeAttributes are included, edges between these nodes and the nodes for the names of the 
+If nodes for the values of the node- and edgeAttributes are included, edges between these nodes and the nodes for the names of the
 node- and edgeAttributes are defined.
 }
