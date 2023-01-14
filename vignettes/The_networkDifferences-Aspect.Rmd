@@ -24,6 +24,16 @@ knitr::opts_chunk$set(tidy.opts=list(width.cutoff=55,
 ```
 
 # The NetworkDifferences-Aspect
+*The networkDifferences-aspect in a nutshell:* This vignette explains in detail the networkDifferences-aspect but this section summarizes the main ideas: 
+
+* The `NetworkDifferences` aspect tracks the differences of two networks represented as RCX-objects. The `compareNetworks`-function returns an RCX-object whereby the nodes, nodeAttributes, edges, and edgeAttributes are a combination of the two given RCX `left` and `right`. This RCX-object has an networkDifferences-aspect, too, which is a list containing five dataframes to monitor the differences regarding the nodes, nodeAttributes, edges, edgeAttributes, and networkAttributes.
+
+* The RCX-object including the networkDifferences-aspect can be converted to the json-based data structure CX and back by using the `toCX`and `processCX` functions provided by the RCX package.
+
+* The networkDifferences-aspect can be converted to RCX-objects that visualized the differences of the two given networks with focus on their topology. The user can select if the RCX-object should be node-centered, edge-centered, or a combination and if the attributes and their values should be included. The conversion to an RCX object allows to store, share, and visualize the networkDifferences-aspect.
+
+
+
 The `NetworkDifferences` aspect allows the tracking and visualization of the differences of two RCX-objects. The first part of this vignette explains in detail how this aspect works and at the end we take a closer look at how this functionality can be used for a real-life example. Many biological entities like proteins and genes are represented as biological networks with nodes and edges and comparing these networks can help to answer questions in medical research e. g. the real-life example illustrates how the `NetworkDifferences` aspect can be used to visualize the differences regarding genes, gene expression and other aspects of two breast cancer patients. 
 
 The `NetworkDifferences` aspect website is available at https://github.com/frankkramer-lab/RCX-NetworkDifferences  
@@ -31,7 +41,8 @@ This package is an extension of the RCX package by Florian Auer. The json-based 
 ```{r library, echo=FALSE, message=FALSE, include = FALSE}
 library(RCXNetworkDifferences)
 ```
-The `NetworkDifferences` aspect tracks the differences of two networks, represented as RCX-objects. First, two RCX-objects `left` and `right` are created that will be used as examples later.
+
+Two RCX-objects `left` and `right` are created that will be used as examples later.
 ```{r left right}
 left <- RCX::createRCX(
     nodes = RCX::createNodes(id=0:2, name=c("A","B","C"), represents=c("r1","r2","r3")),
@@ -315,6 +326,7 @@ edgeNetwork = exportDifferencesToEdgeNetwork(rcxMatchByNameFALSE$networkDifferen
 visualize(edgeNetwork)
 ```
 ![Edge-centered RCX-object with matchByName FALSE](The_networkDifferences_Aspect/edges_matchByRepresent.png){width=100%}
+
 ### Node- and edge-centered RCX-objects
 The last option are the creation of RCX-Objects that show the differences regarding the `nodes`, the `edges`, and the `node-` and `edgeAttributes`. The parameters are the same as for the node-centered option (section 2.1).
 
