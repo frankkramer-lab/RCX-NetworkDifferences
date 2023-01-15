@@ -9,7 +9,13 @@
 #' @return updated \link[RCX:createRCX]{RCX object} or [MetaRelSubNetVis] object
 #' @seealso [RCX::updateNodeAttributes], [RCX::updateEdgeAttributes], [RCX::updateNetworkAttributes]
 #' @export
-updateNetworkDifferences = function(x, networkDifferences, ...){
+updateNetworkDifferences = function(x, networkDifferences, replace=TRUE, ...){
+    UseMethod("updateNetworkDifferences", x)
+}
+
+#' @rdname updateNetworkDifferences
+#' @export
+updateNetworkDifferences.RCX = function(x, networkDifferences, ...){
     ## Check the class of the given networkDifferences aspect
     if (class(networkDifferences)[2] != "NetworkDifferencesAspect") {
         stop('aspect must be from the type networkDifferencesAspect')

@@ -1106,8 +1106,8 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 #' 
 #' Add nodes for nodes names / represents to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
 #' 
-#' @param rcx \code{\link{RCX-object}}; the new created nodes are added to this \code{\link{RCX-object}}
-#' @param nodeDf dataframe; contains the information for the added nodes
+#' @param rcx \code{\link{RCX-object}}; the new nodes are added to this \code{\link{RCX-object}}
+#' @param nodeDf dataframe; contains the information for the new nodes
 #' @param matchByName logical (optional, default value `TRUE`); if set to `TRUE`, two nodes are equal when their names are equal, 
 #' if set to `FALSE`, two nodes are equal when their represents are equal
 #' @param includeNamesAndRepresents logical (optional, default value `FALSE`); if set to `TRUE`, nodes for node names and 
@@ -1176,15 +1176,15 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
                 ## Check if the represent belongs to the left, right or both networks and create edges to the node with the node name they belong to
                 if (row$belongsToLeft=="TRUE" && row$belongsToRight=="TRUE" && !is.na(row$representLeft) && !is.na(row$representRight)) { 
                     if (row$representLeft == row$representRight) {
-                        rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Both", shape = "NodeRepresent")
+                        rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Both", shape = "NodeRepresent")
                     } else { 
-                        rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Left", shape = "NodeRepresent")
-                        rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representRight, offset + 1, belongsTo = "Right", shape = "NodeRepresent")
+                        rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Left", shape = "NodeRepresent")
+                        rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representRight, offset + 1, belongsTo = "Right", shape = "NodeRepresent")
                     }
                 } else if (row$belongsToLeft=="TRUE" && !is.na(row$representLeft)) {
-                    rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Left", shape = "NodeRepresent")
+                    rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Left", shape = "NodeRepresent")
                 } else if (row$belongsToRight=="TRUE" && !is.na(row$representRight)) { 
-                    rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representRight, offset, belongsTo = "Right", shape = "NodeRepresent")
+                    rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representRight, offset, belongsTo = "Right", shape = "NodeRepresent")
                 }
             } 
             ## MatchByRepresent is set
@@ -1192,15 +1192,15 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
                 ## Check if the node name belongs to the left, right or both networks and create edges to the node with the node represent they belong to
                 if (row$belongsToLeft=="TRUE" && row$belongsToRight=="TRUE" && !is.na(row$nameLeft) && !is.na(row$nameRight)) { 
                     if (row$nameLeft==row$nameRight) {
-                        rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Both", shape = "NodeName")
+                        rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Both", shape = "NodeName")
                     } else { 
-                        rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Left", shape = "NodeName")
-                        rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representRight, offset + 1, belongsTo = "Right", shape = "NodeName")
+                        rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Left", shape = "NodeName")
+                        rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representRight, offset + 1, belongsTo = "Right", shape = "NodeName")
                     }
                 } else if (row$belongsToLeft=="TRUE" && !is.na(row$nameLeft)) { 
-                    rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Left", shape = "NodeName")
+                    rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representLeft, offset, belongsTo = "Left", shape = "NodeName")
                 } else if (row$belongsToRight=="TRUE" && !is.na(row$nameRight)) {
-                    rcx <- .addNodeRepresent(rcx, as.integer(row$id), row$representRight, offset, belongsTo = "Right", shape = "NodeRepresent")
+                    rcx <- .addNameRepresent(rcx, as.integer(row$id), row$representRight, offset, belongsTo = "Right", shape = "NodeRepresent")
                 }
             }
         }
@@ -1210,15 +1210,15 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 
 #' Helper function to include the represent for the functions *.diffAddNodes*
 #'
-#' @param rcx RCX-object to which the represent should be added
-#' @param rowId 
-#' @param nodeName name for the new node
-#' @param offset 
-#' @param belongsTo character, if the node represent belongs to the left, right or both networks
-#' @param shape character
+#' @param rcx \code{\link{RCX-object}} to which the node for the name / represent should be added
+#' @param rowId integer; information about the node to which the new node belongs 
+#' @param nodeName character; name for the new node
+#' @param offset integer; id of the node which is needed for the nodeAttributes
+#' @param belongsTo character; if the node represent belongs to the left, right or both networks
+#' @param shape character; shape of the node that indicates the nodeType (node name or node represent)
 #'
-#' @return
-.addNodeRepresent <- function(rcx, rowId, nodeName, offset, belongsTo, shape){
+#' @return \code{\link{RCX-object}}
+.addNameRepresent <- function(rcx, rowId, nodeName, offset, belongsTo, shape){
     rcx <- RCX::updateNodes(rcx, createNodes(name = nodeName))
     rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = rep(offset, 2), name = c("belongsTo", "shape"), value = c(belongsTo, shape)))
     rcx <- RCX::updateEdges(rcx, createEdges(source = rowId, target = offset))
@@ -1419,6 +1419,16 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
     return(rcx)
 }
 
+#' Helper function to add nodes for the attributes
+#'
+#' @param rcx \code{\link{RCX-object}} to which the attributes are added
+#' @param offset integer; id of the node which is needed for the nodeAttributes
+#' @param nodeName character; name for the new node
+#' @param belongsTo character; if the node represent belongs to the left, right or both networks
+#' @param shape character; shape of the node that indicates the nodeType (nodeAttribute or edgeAttribute)
+#' @param type character; if the attributes has different values in the two networks (noSharedValue or sharedValue)
+#'
+#' @return \code{\link{RCX-object}}
 .addAttributes <- function(rcx, offset, nodeName, belongsTo, shape, type) {
     rcx <- RCX::updateNodes(rcx, createNodes(name = nodeName))
     rcx <- RCX::updateNodeAttributes(rcx, createNodeAttributes(propertyOf = rep(length(rcx$nodes$name) - 1, 3), name = c("belongsTo", "shape", "type"), value = c(belongsTo, shape, type)))                     

@@ -178,9 +178,9 @@ getNetwork <- function(
     return(rcx)
 }
 
-rcxGSM615195 <- getNetwork("GSM615195", rcx)
+rcxGSM615195 <- getNetwork("GSM615195", rcx, filterNodeAttributes = "GE_Level")
 
-rcxGSM615184 <- getNetwork("GSM615184", rcx)
+rcxGSM615184 <- getNetwork("GSM615184", rcx, filterNodeAttributes = "GE_Level")
 
 ## ----realLife rcxGSM615195----------------------------------------------------
 head(rcxGSM615195$nodes)
@@ -200,9 +200,9 @@ nodesNetwork = exportDifferencesToNodeNetwork(netDif$networkDifferences)
 visualize(nodesNetwork)
 
 ## ----realLife nodeAttributesNetwork-------------------------------------------
-#nodesAttributesValuesNetwork = exportDifferencesToNodeNetwork(netDif$networkDifferences, startLayerAttributes = 15, startLayerValues = 20)
+nodesAttributesValuesNetwork = exportDifferencesToNodeNetwork(netDif$networkDifferences, startLayerAttributes = 15, startLayerValues = 20)
 
-#visualize(nodesAttributesValuesNetwork)
+visualize(nodesAttributesValuesNetwork)
 
 ## ----sessionInfo--------------------------------------------------------------
 sessionInfo()

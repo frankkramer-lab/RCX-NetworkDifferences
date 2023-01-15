@@ -12,9 +12,9 @@
 )
 }
 \arguments{
-\item{rcx}{\code{\link{RCX-object}}; the new created nodes are added to this \code{\link{RCX-object}}}
+\item{rcx}{\code{\link{RCX-object}}; the new nodes are added to this \code{\link{RCX-object}}}
 
-\item{nodeDf}{dataframe; contains the information for the added nodes}
+\item{nodeDf}{dataframe; contains the information for the new nodes}
 
 \item{matchByName}{logical (optional, default value \code{TRUE}); if set to \code{TRUE}, two nodes are equal when their names are equal,
 if set to \code{FALSE}, two nodes are equal when their represents are equal}

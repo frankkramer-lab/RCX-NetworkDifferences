@@ -37,7 +37,6 @@ the circle for the values of the nodesAttribute start}
 \description{
 Creation of an edge-centered RCX-object with the information of a \emph{networkDifferences}-aspect to visualize
 the differences of two RCX-objects.
-rcxNodeNetwork
 }
 \details{
 A \code{\link{RCX-object}} is created with nodes for the edge interaction, nodes for the names of the edgeAttributes
