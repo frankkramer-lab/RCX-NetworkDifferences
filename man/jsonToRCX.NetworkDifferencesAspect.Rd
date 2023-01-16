@@ -15,7 +15,7 @@
 created aspect or \code{NULL}
 }
 \description{
-Functions to handle parsed JSON for the \link{networkDifferences} aspect.
+Functions to handle parsed JSON for the \link{NetworkDifferences} aspect.
 }
 \details{
 These functions will be used in \link[RCX:readCX]{RCX::processCX} to process the JSON data for every aspect.

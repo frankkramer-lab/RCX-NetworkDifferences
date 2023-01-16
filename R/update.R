@@ -1,13 +1,11 @@
-#' Update networkDifferences
+#' Update RCX-object with NetworkDifferences aspect
 #'
-#' This functions updates an [networkDifferences] aspect with an other [networkDifferences] aspect or within an \link[RCX:createRCX]{RCX object}.
-#'
-#' @param x \link[RCX:createRCX]{RCX object} or [networkDifferences] object; (to which the new [networkDifferences] will be added)
-#' @param networkDifferences [networkDifferences] object; (the [networkDifferences] aspect, that will be added)
+#' This functions updates an \link[RCX:createRCX]{RCX object} with a [NetworkDifferences] aspect
+#' @param x \link[RCX:createRCX]{RCX object}; (to which the new [networkDifferences] will be added)
+#' @param networkDifferences [NetworkDifferences] aspect
 #' @param ... additional parameters
 #'
-#' @return updated \link[RCX:createRCX]{RCX object} or [MetaRelSubNetVis] object
-#' @seealso [RCX::updateNodeAttributes], [RCX::updateEdgeAttributes], [RCX::updateNetworkAttributes]
+#' @return updated \link[RCX:createRCX]{RCX object}
 #' @export
 updateNetworkDifferences = function(x, networkDifferences, replace=TRUE, ...){
     UseMethod("updateNetworkDifferences", x)

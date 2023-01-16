@@ -32,8 +32,7 @@ rcxToJson.NetworkDifferencesAspect = function(aspect, verbose = FALSE) {
                 oldIdRight="oir",
                 belongsToLeft="btl",
                 belongsToRight="btr")
-    }
-    else {
+    } else {
         map = c(id="@id",
                 nameLeft="nl",
                 nameRight="nr",
@@ -101,7 +100,7 @@ rcxToJson.NetworkDifferencesAspect = function(aspect, verbose = FALSE) {
 
 #' Convert parsed JSON aspects to RCX
 #'
-#' Functions to handle parsed JSON for the [networkDifferences] aspect.
+#' Functions to handle parsed JSON for the [NetworkDifferences] aspect.
 #'
 #' These functions will be used in [RCX::processCX] to process the JSON data for every aspect.
 #' Each aspect is accessible in the CX-JSON by a particular accession name (i.e. its aspect name; see NDEx documentation:

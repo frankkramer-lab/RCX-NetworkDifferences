@@ -20,9 +20,6 @@ The \code{\link[RCX:countElements]{RCX::countElements()}} function uses method d
 This way it is easier to extend the data model.
 This function implements the function for the \link{NetworkDifferences} aspect.
 }
-\examples{
-NULL
-}
 \seealso{
 \code{\link[RCX:countElements]{RCX::countElements()}}, \code{\link[RCX:hasIds]{RCX::hasIds()}}, \code{\link[RCX:idProperty]{RCX::idProperty()}}, \code{\link[RCX:refersTo]{RCX::refersTo()}}, \code{\link[RCX:referredBy]{RCX::referredBy()}}, \code{\link[RCX:maxId]{RCX::maxId()}}
 }

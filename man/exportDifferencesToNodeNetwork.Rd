@@ -2,7 +2,7 @@
 % Please edit documentation in R/compareNetworks.R
 \name{exportDifferencesToNodeNetwork}
 \alias{exportDifferencesToNodeNetwork}
-\title{Node-centered \code{\link{RCX-object}} for the differences of two RCX-objects}
+\title{Node-centered \code{\link{RCX-object}} representing a \link{NetworkDifferences} aspect}
 \usage{
 exportDifferencesToNodeNetwork(
   aspect,
@@ -40,7 +40,7 @@ the circle for the values of the nodesAttribute start}
 \code{\link{RCX-object}}
 }
 \description{
-Creation of a node-centered \code{\link{RCX-object}} with the information of a \emph{networkDifferences}-aspect to visualize
+Creation of a node-centered \code{\link{RCX-object}} with the information of a \link{NetworkDifferences} aspect to visualize
 the differences of two RCX-objects.
 }
 \details{

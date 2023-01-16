@@ -2,26 +2,23 @@
 % Please edit documentation in R/update.R
 \name{updateNetworkDifferences}
 \alias{updateNetworkDifferences}
-\alias{updateNetworkDifferences.NetworkDifferencesAspect}
-\title{Update networkDifferences}
+\alias{updateNetworkDifferences.RCX}
+\title{Update RCX-object with NetworkDifferences aspect}
 \usage{
 updateNetworkDifferences(x, networkDifferences, replace = TRUE, ...)
 
-\method{updateNetworkDifferences}{NetworkDifferencesAspect}(x, networkDifferences, ...)
+\method{updateNetworkDifferences}{RCX}(x, networkDifferences, ...)
 }
 \arguments{
-\item{x}{\link[RCX:createRCX]{RCX object} or \link{networkDifferences} object; (to which the new \link{networkDifferences} will be added)}
+\item{x}{\link[RCX:createRCX]{RCX object}; (to which the new \link{networkDifferences} will be added)}
 
-\item{networkDifferences}{\link{networkDifferences} object; (the \link{networkDifferences} aspect, that will be added)}
+\item{networkDifferences}{\link{NetworkDifferences} aspect}
 
 \item{...}{additional parameters}
 }
 \value{
-updated \link[RCX:createRCX]{RCX object} or \link{MetaRelSubNetVis} object
+updated \link[RCX:createRCX]{RCX object}
 }
 \description{
-This functions updates an \link{networkDifferences} aspect with an other \link{networkDifferences} aspect or within an \link[RCX:createRCX]{RCX object}.
-}
-\seealso{
-\link[RCX:updateNodeAttributes]{RCX::updateNodeAttributes}, \link[RCX:updateEdgeAttributes]{RCX::updateEdgeAttributes}, \link[RCX:updateNetworkAttributes]{RCX::updateNetworkAttributes}
+This functions updates an \link[RCX:createRCX]{RCX object} with a \link{NetworkDifferences} aspect
 }

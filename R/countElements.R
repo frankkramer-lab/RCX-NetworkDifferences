@@ -13,8 +13,6 @@
 #'
 #' @importFrom RCX countElements
 #' @export
-#' @examples
-#' NULL
 countElements.NetworkDifferencesAspect = function(x){
     return(length(1))
 }

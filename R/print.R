@@ -1,11 +1,10 @@
-#' Printing the NetworkDifferences aspect
+#' Printing the [NetworkDifferences] aspect
 #'
 #' These functions attempt to print the aspect of an RCX object in a more readable form.
 #'
-#' @param x NetworkDifferences aspect
-#' @param ... further arguments passed to or from other methods. See [base::print()]
+#' @param x [NetworkDifferences] aspect
 #'
-#' @return prints the NetworkDifferences aspect and returns it invisibly ([invisible](x))
+#' @return prints the [NetworkDifferences] aspect and returns it invisibly ([invisible](x))
 #' @export
 #' @name print
 print.NetworkDifferencesAspect = function(x) {

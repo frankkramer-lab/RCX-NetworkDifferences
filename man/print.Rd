@@ -3,17 +3,15 @@
 \name{print}
 \alias{print}
 \alias{print.NetworkDifferencesAspect}
-\title{Printing the NetworkDifferences aspect}
+\title{Printing the \link{NetworkDifferences} aspect}
 \usage{
 \method{print}{NetworkDifferencesAspect}(x)
 }
 \arguments{
-\item{x}{NetworkDifferences aspect}
-
-\item{...}{further arguments passed to or from other methods. See \code{\link[base:print]{base::print()}}}
+\item{x}{\link{NetworkDifferences} aspect}
 }
 \value{
-prints the NetworkDifferences aspect and returns it invisibly (\href{x}{invisible})
+prints the \link{NetworkDifferences} aspect and returns it invisibly (\href{x}{invisible})
 }
 \description{
 These functions attempt to print the aspect of an RCX object in a more readable form.

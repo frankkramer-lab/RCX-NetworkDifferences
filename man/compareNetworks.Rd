@@ -11,7 +11,7 @@ compareNetworks(left = NULL, right = NULL, matchByName = TRUE)
 
 \item{right}{\code{\link{RCX-object}} that is compared to the left network}
 
-\item{matchByName}{logical (optional default value \code{TRUE}); if \emph{matchByName} is \code{TRUE}, two nodes are equal when their names are equal,
+\item{matchByName}{logical (optional, default value \code{TRUE}); if \emph{matchByName} is \code{TRUE}, two nodes are equal when their names are equal,
 if \emph{matchByName} is \code{FALSE}, two nodes are equal when their represents are equal.}
 }
 \value{
@@ -21,13 +21,13 @@ if \emph{matchByName} is \code{FALSE}, two nodes are equal when their represents
 Tracking the differences of two RCX-objects
 }
 \details{
-The left and right \code{\link{RCX-object}} are compared regarding the differences of the node, nodeAttributes, edges, edgeAttributes, and networkAttributes.
-An \code{\link{RCX-object}} is created and the nodes, nodeAttributes, edges, and edgeAttributes of this RCX object are created by appending the aspects of
-the right network to the aspects of the left network (some values like the ids, propertyOf are updated). An additional aspect, a networkDifferences-aspect,
-is assigned to the \code{\link{RCX-object}} and this networkDifferences-aspects tracks the differences that are described in the following section.
+An \code{\link{RCX-object}} is created and its nodes, nodeAttributes, edges, and edgeAttributes are created by appending the aspects of
+the right network to the respective aspects of the left network (some values like the ids, propertyOf are updated). An additional aspect, a networkDifferences-aspect,
+is assigned to the \code{\link{RCX-object}} and this \link{NetworkDifferences} aspect tracks the differences regarding the differences of the node, nodeAttributes, edges,
+edgeAttributes, and networkAttributes.
 
 Two nodes are equal when their names/represents (depending on \emph{matchByName}) are equal.
-The networkDifferences aspect can only be created if the RCX-objects have names for their nodes (if \emph{matchByName} \code{TRUE}) or represents for their nodes (if \emph{matchByName} \code{FALSE}).
+The \link{NetworkDifferences} aspect can only be created if the RCX-objects have names for their nodes (if \emph{matchByName} \code{TRUE}) or represents for their nodes (if \emph{matchByName} \code{FALSE}).
 The columns for the the nodes-dataframe are: (\emph{matchByName} \code{TRUE}) id, name, representLeft, representRight, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight,
 (\emph{matchByName} \code{FALSE}) id, nameLeft, nameRight, represent, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight.
 The ids start at zero and each node is assigned a new id.
@@ -35,17 +35,15 @@ The ids start at zero and each node is assigned a new id.
 Two nodeAttributes are equal if they belong to the same node name / represent (depending on \emph{matchByName}-boolean) and if the names are written the same.
 The columns for the nodeAttributes-dataframe are: propertyOf, name, belongsToLeft, belongsToRight, dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
 
-Two edges are equal if their sources and targets are equal (names/represents depending on \emph{matchByName}) and if their interactions are equal or both interactions do not have a value (NA-value).
+Two edges are equal if their sources and targets are equal (names/represents depending on \emph{matchByName}) and if their interactions are equal or if both interactions are NA.
 The edges are undirected that means that the source and target can be switched.
-If one interaction has no value (NA) and the other interaction has a value, the edges are different.
 The columns for the edge-dataframe are: id, source, target, interaction, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight.
-The ids start to ascend from zero.
 
 Two edgeAttributes are equal if they belong to the same edge and if the names of the edgeAttributes are equal.
-The columns for the edgeAttributes-dataframe are: propertyOf, name, belongsToLeft, belongsToRight, dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
+The columns for the edgeAttributes-dataframe are the same as for the nodeAttributes.
 
-Two networkAttributes are equal if the names are equal.
-The columns for the networkAttributes-dataframe are: name, belongsToLeft, belongsToRight, dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
+Two networkAttributes are equal if the names are equal. The columns for the networkAttributes-dataframe are: name, belongsToLeft, belongsToRight,
+dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
 }
 \note{
 The execution of the function is interrupted and a warning message is displayed if \emph{matchByName} is \code{TRUE} and one or both networks do not have names for their nodes.
