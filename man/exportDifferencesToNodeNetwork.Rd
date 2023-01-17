@@ -16,7 +16,7 @@ exportDifferencesToNodeNetwork(
 )
 }
 \arguments{
-\item{aspect}{networkDifferences-aspect; information about the differences of two \code{\link{RCX-object}}}
+\item{aspect}{\link{NetworkDifferences} aspect; information about the differences of two RCX-objects}
 
 \item{includeNamesAndRepresents}{logical (optional, default value \code{FALSE}); if set to \code{TRUE} nodes for node names and node represents are created}
 
@@ -34,7 +34,7 @@ to one RCX-object start}
 the circles for the names of the nodesAttributes start}
 
 \item{startLayerValues}{integer (optional, default value 0); if greater than \emph{startLayerAttributes}, it determines the layer at which
-the circle for the values of the nodesAttribute start}
+the circle for the values of the nodesAttributes start}
 }
 \value{
 \code{\link{RCX-object}}
@@ -44,8 +44,8 @@ Creation of a node-centered \code{\link{RCX-object}} with the information of a \
 the differences of two RCX-objects.
 }
 \details{
-A \code{\link{RCX-object}} is created with nodes for the node names / node represents (depending on \emph{includeNamesAndRepresents}),
-nodes for the names of the nodeAttributes (if \emph{startLayerAttributes} greater than \emph{startLayerLeftRight}), nodes for the values of the nodeAttributes
+An \code{\link{RCX-object}} is created with nodes for the node names/represents (depending on \emph{includeNamesAndRepresents}),
+nodes for the names of the nodeAttributes (if \emph{startLayerAttributes} greater than \emph{startLayerLeftRight}) and nodes for the values of the nodeAttributes
 (if \emph{startLayerValues} is greater than \emph{startLayerAttributes}). The following inequation must be satisfied: 0 < \emph{startLayerBoth} < \emph{startLayerLeftRight} < \emph{startLayerAttributes} < \emph{startLayerValues}.
 
 The networkAttributes are ignored as they are not considered to very important.
@@ -54,8 +54,8 @@ Node shape in the visualization: Node name: round, node represent: triangle, nam
 
 Color of the network-elements: gray: belongs to both networks, light blue: belongs only to the left network, orange: belongs only to the right network.
 
-If there are edges between two nodes in the left or right RCX-objects, colored edges are defined in the created RCX-object, too, and are labeled with the interaction of the edge.
-If \emph{includeNamesAndRepresents} is \code{TRUE}, edges between the nodes for the node and node represent are defined.
+If there are edges between two nodes in the left or right RCX-object, colored edges are defined in the created RCX-object, too, and are labeled with the interaction of the edge.
+If \emph{includeNamesAndRepresents} is \code{TRUE}, edges between the nodes for the node name and node represent are defined.
 If nodes for the names of the nodeAttributes are included, edges between these nodes and the node they belong to are defined.
 If nodes for the values of the nodeAttributes are included, edges between these nodes and the nodes for the names of the nodeAttributes are defined.
 }

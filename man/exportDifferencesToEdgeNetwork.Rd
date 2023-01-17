@@ -15,13 +15,13 @@ exportDifferencesToEdgeNetwork(
 )
 }
 \arguments{
-\item{aspect}{networkDifferences-aspect; information about the differences of two \code{\link{RCX-object}}}
+\item{aspect}{\link{NetworkDifferences} aspect; information about the differences of two RCX-objects}
 
 \item{dX}{integer (optional, default value 70); determines the width of the created circles}
 
 \item{dY}{integer (optional, default value 70); determines the height of the created circles}
 
-\item{startLayerBoth}{integer (optional, default value 5); determines the layer at which the circles for the edges that belong to both RCX-object start}
+\item{startLayerBoth}{integer (optional, default value 5); determines the layer at which the circles for the edges that belong to both RCX-objects start}
 
 \item{startLayerLeftRight}{integer (optional, default value 10); determines the layer at which the circles for the nodes that belong only to one RCX-object start}
 
@@ -29,18 +29,18 @@ exportDifferencesToEdgeNetwork(
 the circles for the names of the nodesAttributes start}
 
 \item{startLayerValues}{integer (optional, default value 0); if greater than \emph{startLayerAttributes}, it determines the layer at which
-the circle for the values of the nodesAttribute start}
+the circles for the values of the nodesAttribute start}
 }
 \value{
 \code{\link{RCX-object}}
 }
 \description{
-Creation of an edge-centered RCX-object with the information of a \emph{networkDifferences}-aspect to visualize
+Creation of an edge-centered \code{\link{RCX-object}} with the information of a \link{NetworkDifferences} aspect to visualize
 the differences of two RCX-objects.
 }
 \details{
-A \code{\link{RCX-object}} is created with nodes for the edge interaction, nodes for the names of the edgeAttributes
-(if \emph{startLayerAttributes} greater than \emph{startLayerLeftRight}), nodes for the values of the edgeAttributes (if \emph{startLayerValues} is greater than \emph{startLayerAttributes}).
+An \code{\link{RCX-object}} is created with nodes for the edge interaction, nodes for the names of the edgeAttributes
+(if \emph{startLayerAttributes} is greater than \emph{startLayerLeftRight}), nodes for the values of the edgeAttributes (if \emph{startLayerValues} is greater than \emph{startLayerAttributes}).
 The following inequation must be satisfied: 0 < \emph{startLayerBoth} < \emph{startLayerLeftRight} < \emph{startLayerAttributes} < \emph{startLayerValues}.
 
 The networkAttributes are ignored as they are not considered to very important.
@@ -49,8 +49,8 @@ Node shape in the visualization: Edge: rectangle, name of edgeAttribute: rectang
 
 Color of the network-elements: gray: belongs to both networks, light blue: belongs only to the left network, orange: belongs only to the right network.
 
-If in the left or right RCX-object two edges have a node in common, colored edges are defined in the created RCX-object,
-and the edges are labeled with the node names / node represent (depending on \emph{matchByName}).
-If nodes for the names of the edgeAttributes are included, edges between these nodes and the nodes for the edge they belong to are defined.
+If two edges from the original RCX-objects have a node in common, colored edges are defined in the created RCX-object,
+and the edges are labeled with the node names/represent (depending on \emph{matchByName}).
+If nodes for the names of the edgeAttributes are included, edges between these nodes and the nodes for the edges they belong to are defined.
 If nodes for the values of the edgeAttributes are included, edges between these nodes and the nodes for the names of the edgeAttributes are defined.
 }

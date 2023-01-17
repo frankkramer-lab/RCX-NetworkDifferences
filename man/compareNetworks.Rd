@@ -22,17 +22,16 @@ Tracking the differences of two RCX-objects
 }
 \details{
 An \code{\link{RCX-object}} is created and its nodes, nodeAttributes, edges, and edgeAttributes are created by appending the aspects of
-the right network to the respective aspects of the left network (some values like the ids, propertyOf are updated). An additional aspect, a networkDifferences-aspect,
+the right network to the respective aspects of the left network (some values like the ids, propertyOf are updated). An additional aspect, a \link{NetworkDifferences} aspect,
 is assigned to the \code{\link{RCX-object}} and this \link{NetworkDifferences} aspect tracks the differences regarding the differences of the node, nodeAttributes, edges,
 edgeAttributes, and networkAttributes.
 
 Two nodes are equal when their names/represents (depending on \emph{matchByName}) are equal.
 The \link{NetworkDifferences} aspect can only be created if the RCX-objects have names for their nodes (if \emph{matchByName} \code{TRUE}) or represents for their nodes (if \emph{matchByName} \code{FALSE}).
-The columns for the the nodes-dataframe are: (\emph{matchByName} \code{TRUE}) id, name, representLeft, representRight, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight,
+The columns for the the nodes-dataframe are (\emph{matchByName} \code{TRUE}): id, name, representLeft, representRight, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight,
 (\emph{matchByName} \code{FALSE}) id, nameLeft, nameRight, represent, oldIdLeft, oldIdRight, belongsToLeft, belongsToRight.
-The ids start at zero and each node is assigned a new id.
 
-Two nodeAttributes are equal if they belong to the same node name / represent (depending on \emph{matchByName}-boolean) and if the names are written the same.
+Two nodeAttributes are equal if they belong to the same node name/represent (depending on \emph{matchByName}-boolean) and if the names are written the same.
 The columns for the nodeAttributes-dataframe are: propertyOf, name, belongsToLeft, belongsToRight, dataTypeLeft, dataTypeRight, isListLeft, isListRight, valueLeft, valueRight.
 
 Two edges are equal if their sources and targets are equal (names/represents depending on \emph{matchByName}) and if their interactions are equal or if both interactions are NA.

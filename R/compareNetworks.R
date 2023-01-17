@@ -732,8 +732,8 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
 #' the differences of two RCX-objects.
 #' 
 #' @details 
-#' A \code{\link{RCX-object}} is created with nodes for the node names / node represents (depending on *includeNamesAndRepresents*), 
-#' nodes for the names of the nodeAttributes (if *startLayerAttributes* greater than *startLayerLeftRight*), nodes for the values of the nodeAttributes 
+#' An \code{\link{RCX-object}} is created with nodes for the node names/represents (depending on *includeNamesAndRepresents*), 
+#' nodes for the names of the nodeAttributes (if *startLayerAttributes* greater than *startLayerLeftRight*) and nodes for the values of the nodeAttributes 
 #' (if *startLayerValues* is greater than *startLayerAttributes*). The following inequation must be satisfied: 0 < *startLayerBoth* < *startLayerLeftRight* < *startLayerAttributes* < *startLayerValues*.
 #' 
 #' The networkAttributes are ignored as they are not considered to very important.
@@ -742,12 +742,12 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
 #' 
 #' Color of the network-elements: gray: belongs to both networks, light blue: belongs only to the left network, orange: belongs only to the right network.
 #' 
-#' If there are edges between two nodes in the left or right RCX-objects, colored edges are defined in the created RCX-object, too, and are labeled with the interaction of the edge.
-#' If *includeNamesAndRepresents* is `TRUE`, edges between the nodes for the node and node represent are defined.
+#' If there are edges between two nodes in the left or right RCX-object, colored edges are defined in the created RCX-object, too, and are labeled with the interaction of the edge.
+#' If *includeNamesAndRepresents* is `TRUE`, edges between the nodes for the node name and node represent are defined.
 #' If nodes for the names of the nodeAttributes are included, edges between these nodes and the node they belong to are defined.
 #' If nodes for the values of the nodeAttributes are included, edges between these nodes and the nodes for the names of the nodeAttributes are defined.
 #' 
-#' @param aspect networkDifferences-aspect; information about the differences of two \code{\link{RCX-object}}
+#' @param aspect [NetworkDifferences] aspect; information about the differences of two RCX-objects
 #' @param includeNamesAndRepresents logical (optional, default value `FALSE`); if set to `TRUE` nodes for node names and node represents are created
 #' @param dX integer (optional, default value 70); determines the width of the created circles
 #' @param dY integer (optional, default value 70); determines the height of the created circles
@@ -758,7 +758,7 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
 #' @param startLayerAttributes integer (optional, default value 0); if greater than *startLayerLeftRight*, it determines the layer at which 
 #' the circles for the names of the nodesAttributes start 
 #' @param startLayerValues integer (optional, default value 0); if greater than *startLayerAttributes*, it determines the layer at which 
-#' the circle for the values of the nodesAttribute start
+#' the circle for the values of the nodesAttributes start
 #'   
 #' @return \code{\link{RCX-object}}
 #' 
@@ -843,12 +843,12 @@ exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALS
 
 #' Edge-centered \code{\link{RCX-object}} for the differences of two RCX-objects
 #' 
-#' Creation of an edge-centered RCX-object with the information of a *networkDifferences*-aspect to visualize 
+#' Creation of an edge-centered \code{\link{RCX-object}} with the information of a [NetworkDifferences] aspect to visualize 
 #' the differences of two RCX-objects.
 #' 
 #' @details 
-#' A \code{\link{RCX-object}} is created with nodes for the edge interaction, nodes for the names of the edgeAttributes 
-#' (if *startLayerAttributes* greater than *startLayerLeftRight*), nodes for the values of the edgeAttributes (if *startLayerValues* is greater than *startLayerAttributes*). 
+#' An \code{\link{RCX-object}} is created with nodes for the edge interaction, nodes for the names of the edgeAttributes 
+#' (if *startLayerAttributes* is greater than *startLayerLeftRight*), nodes for the values of the edgeAttributes (if *startLayerValues* is greater than *startLayerAttributes*). 
 #' The following inequation must be satisfied: 0 < *startLayerBoth* < *startLayerLeftRight* < *startLayerAttributes* < *startLayerValues*.
 #'   
 #' The networkAttributes are ignored as they are not considered to very important.
@@ -857,20 +857,20 @@ exportDifferencesToNodeNetwork = function(aspect, includeNamesAndRepresents=FALS
 #' 
 #' Color of the network-elements: gray: belongs to both networks, light blue: belongs only to the left network, orange: belongs only to the right network.
 #' 
-#' If in the left or right RCX-object two edges have a node in common, colored edges are defined in the created RCX-object, 
-#' and the edges are labeled with the node names / node represent (depending on *matchByName*).
-#' If nodes for the names of the edgeAttributes are included, edges between these nodes and the nodes for the edge they belong to are defined.
+#' If two edges from the original RCX-objects have a node in common, colored edges are defined in the created RCX-object, 
+#' and the edges are labeled with the node names/represent (depending on *matchByName*).
+#' If nodes for the names of the edgeAttributes are included, edges between these nodes and the nodes for the edges they belong to are defined.
 #' If nodes for the values of the edgeAttributes are included, edges between these nodes and the nodes for the names of the edgeAttributes are defined.
 #' 
-#' @param aspect networkDifferences-aspect; information about the differences of two \code{\link{RCX-object}}
+#' @param aspect [NetworkDifferences] aspect; information about the differences of two RCX-objects
 #' @param dX integer (optional, default value 70); determines the width of the created circles
 #' @param dY integer (optional, default value 70); determines the height of the created circles
-#' @param startLayerBoth integer (optional, default value 5); determines the layer at which the circles for the edges that belong to both RCX-object start
+#' @param startLayerBoth integer (optional, default value 5); determines the layer at which the circles for the edges that belong to both RCX-objects start
 #' @param startLayerLeftRight integer (optional, default value 10); determines the layer at which the circles for the nodes that belong only to one RCX-object start
 #' @param startLayerAttributes integer (optional, default value 0); if greater than *startLayerLeftRight*, it determines the layer at which 
 #' the circles for the names of the nodesAttributes start 
 #' @param startLayerValues integer (optional, default value 0); if greater than *startLayerAttributes*, it determines the layer at which 
-#' the circle for the values of the nodesAttribute start
+#' the circles for the values of the nodesAttribute start
 #' 
 #' @return \code{\link{RCX-object}}
 #' 
@@ -987,29 +987,29 @@ exportDifferencesToEdgeNetwork <- function(aspect=NULL, dX=70, dY=70, startLayer
 
 #' Node- and edge-centered RCX-object for the differences of two RCX-objects
 #' 
-#' Creation of a node-centered RCX-object with the information of a *networkDifferences*-aspect to visualize 
+#' Creation of an \code{\link{RCX-object}} with the information of a [NetworkDifferences] aspect to visualize 
 #' the differences of two RCX-objects.
 #' 
 #' @details 
-#' A \code{\link{RCX-object}} is created with nodes for the node names / represents (depending on *includeNamesAndRepresents*), 
-#' nodes for the edges, nodes for the names of the node- and edgeAttributes (if *startLayerAttributes* greater than *startLayerLeftRight*), nodes for the values of the 
+#' An \code{\link{RCX-object}} is created with nodes for the node names/represents (depending on *includeNamesAndRepresents*), 
+#' nodes for the edges, nodes for the names of the node- and edgeAttributes (if *startLayerAttributes* is greater than *startLayerLeftRight*), nodes for the values of the 
 #' node- and edgeAttributes (if *startLayerValues* is greater than *startLayerAttributes*). 
 #' 
 #' The networkAttributes are ignored as they are not considered to very important.
 #' 
-#' Node shape in the visualization: Node name: round, node represent: triangle, edge: rectangle, name of nodeAttribute: hexagon, 
+#' Node shapes in the visualization: Node name: round, node represent: triangle, edge: rectangle, name of nodeAttribute: hexagon, 
 #' value of nodeAttribute: parallelogram, name of edgeAttribute: rectangle with round corner, value of edgeAttribute: diamond
 #' 
 #' Color of the network-elements: light blue: only belongs to the left network, gray: belongs to both networks, orange: belongs only to the right network
 #' 
-#' If there are edges between two nodes in the left or right RCX-objects, edges between the node for the edge and the nodes that 
-#' represent the source / target node are defined.
+#' If there are edges between two nodes in the left or right \code{\link{RCX-object}}, edges between the node for the edge and the nodes that 
+#' represent the source/target node are defined.
 #' If *includeNamesAndRepresents* is `TRUE`, edges between the nodes for the node and node represent are defined.
 #' If nodes for the names of the node- and edgeAttributes are included, edges between these nodes and the node they belong to are defined.
 #' If nodes for the values of the node- and edgeAttributes are included, edges between these nodes and the nodes for the names of the 
 #' node- and edgeAttributes are defined.
 #' 
-#' @param aspect networkDifferences-aspect; information about the differences of two RCX-objects
+#' @param aspect [NetworkDifferences] aspect; information about the differences of two RCX-objects
 #' @param includeNamesAndRepresents logical (optional, default value `FALSE`); if set to `TRUE`, nodes for node names and 
 #' node represents are created
 #' @param dX integer (optional, default value 70); determines the width of the created circles
@@ -1019,9 +1019,9 @@ exportDifferencesToEdgeNetwork <- function(aspect=NULL, dX=70, dY=70, startLayer
 #' @param startLayerLeftRight integer (optional, default value 10); determines the layer at which the circles for the nodes that belong only 
 #' to one RCX-object start
 #' @param startLayerAttributes integer (optional, default value 0); if greater than *startLayerLeftRight*, it determines the layer at which 
-#' the circles for the names of the nodesAttributes start 
+#' the circles for the names of the node- and edgeAttributes start 
 #' @param startLayerValues integer (optional, default value 0); if greater than *startLayerAttributes*, it determines the layer at which 
-#' the circle for the values of the nodesAttribute start
+#' the circles for the values of the node- and edgeAttributes start
 #'
 #' @return \code{\link{RCX-object}}
 #' 
@@ -1101,8 +1101,7 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 
 #' Helper-function to add nodes to a \code{\link{RCX-object}
 #' 
-#' Add nodes for nodes names / represents to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
-#' 
+#' Add nodes for nodes names/represents to an \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
 #' @param rcx \code{\link{RCX-object}}; the new nodes are added to this \code{\link{RCX-object}}
 #' @param nodeDf dataframe; contains the information for the new nodes
 #' @param matchByName logical (optional, default value `TRUE`); if set to `TRUE`, two nodes are equal when their names are equal, 
@@ -1205,9 +1204,9 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
     return(rcx)
 }
 
-#' Helper function to include the represent for the functions *.diffAddNodes*
+#' Helper function to include the represents for the functions *.diffAddNodes*
 #'
-#' @param rcx \code{\link{RCX-object}} to which the node for the name / represent should be added
+#' @param rcx \code{\link{RCX-object}} to which the node for the name/represent should be added
 #' @param rowId integer; information about the node to which the new node belongs 
 #' @param nodeName character; name for the new node
 #' @param offset integer; id of the node which is needed for the nodeAttributes

@@ -2,12 +2,12 @@
 % Please edit documentation in R/compareNetworks.R
 \name{.addNameRepresent}
 \alias{.addNameRepresent}
-\title{Helper function to include the represent for the functions \emph{.diffAddNodes}}
+\title{Helper function to include the represents for the functions \emph{.diffAddNodes}}
 \usage{
 .addNameRepresent(rcx, rowId, nodeName, offset, belongsTo, shape)
 }
 \arguments{
-\item{rcx}{\code{\link{RCX-object}} to which the node for the name / represent should be added}
+\item{rcx}{\code{\link{RCX-object}} to which the node for the name/represent should be added}
 
 \item{rowId}{integer; information about the node to which the new node belongs}
 
@@ -23,5 +23,5 @@
 \code{\link{RCX-object}}
 }
 \description{
-Helper function to include the represent for the functions \emph{.diffAddNodes}
+Helper function to include the represents for the functions \emph{.diffAddNodes}
 }

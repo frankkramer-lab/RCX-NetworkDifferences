@@ -26,5 +26,5 @@ node represents are created}
 \code{\link{RCX-object}
 }
 \description{
-Add nodes for nodes names / represents to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
+Add nodes for nodes names/represents to an \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
 }
