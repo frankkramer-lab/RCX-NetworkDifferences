@@ -2,18 +2,18 @@
 % Please edit documentation in R/compareNetworks.R
 \name{.addAttributes}
 \alias{.addAttributes}
-\title{Helper function to add nodes for the attributes}
+\title{Helper function to add the nodes for the attributes}
 \usage{
 .addAttributes(rcx, offset, nodeName, belongsTo, shape, type)
 }
 \arguments{
-\item{rcx}{\code{\link{RCX-object}} to which the attributes are added}
+\item{rcx}{\code{\link{RCX-object}} to which the nodes for the attributes are added}
 
 \item{offset}{integer; id of the node which is needed for the nodeAttributes}
 
 \item{nodeName}{character; name for the new node}
 
-\item{belongsTo}{character; if the node represent belongs to the left, right or both networks}
+\item{belongsTo}{character; if the node belongs to the left, right or both networks}
 
 \item{shape}{character; shape of the node that indicates the nodeType (nodeAttribute or edgeAttribute)}
 
@@ -23,5 +23,5 @@
 \code{\link{RCX-object}}
 }
 \description{
-Helper function to add nodes for the attributes
+Helper function to add the nodes for the attributes
 }

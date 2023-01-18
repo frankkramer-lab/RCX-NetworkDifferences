@@ -24,25 +24,25 @@ knitr::opts_chunk$set(tidy.opts=list(width.cutoff=55,
 ```
 
 # The NetworkDifferences-Aspect
-*The networkDifferences-aspect in a nutshell:* This vignette explains in detail the `NetworkDifferences` aspect but this section summarizes the main ideas: 
+*The networkDifferences-aspect in a nutshell:* This vignette explains the NetworkDifferences aspect in detail but this section summarizes the main ideas: 
 
-* The `NetworkDifferences` aspect tracks the differences of two networks represented as RCX-objects. The `compareNetworks`-function returns an RCX-object whereby the nodes-, nodeAttributes-, edges-, and edgeAttributes-aspects are a combination of the two given RCX-objects `left` and `right`. This RCX-object has a `NetworkDifferences` aspect, too, which is a list containing five dataframes to monitor the differences regarding the nodes, nodeAttributes, edges, edgeAttributes, and networkAttributes.
+* The NetworkDifferences aspect tracks the differences of two networks represented as RCX-objects. The `compareNetworks`-function returns an RCX-object whereby the nodes-, nodeAttributes-, edges-, and edgeAttributes-aspects are a combination of the two given RCX-objects `left` and `right`. This RCX-object has the NetworkDifferences aspect, too, which is a list containing five dataframes to monitor the differences regarding the nodes, nodeAttributes, edges, edgeAttributes, and networkAttributes.
 
-* The RCX-object including the `NetworkDifferences` aspect can be converted to the json-based data structure CX and back by using the `toCX`- and `processCX`-functions provided by the RCX package.
+* The RCX-object including the NetworkDifferences aspect can be converted to the json-based data structure CX and back by using the `toCX`- and `processCX`-functions provided by the RCX package.
 
-* The `NetworkDifferences` aspect can be converted to RCX-objects that visualize the differences of the two given networks with focus on their topology. The user can select if the RCX-object should be node-centered, edge-centered, or a combination and if the attributes and their values should be included. The conversion to an RCX object allows to store, share, and visualize the `NetworkDifferences` aspect.
+* The NetworkDifferences aspect can be converted to RCX-objects that visualize the differences of the two given networks with focus on their topology. The user can select if the RCX-object should be node-centered, edge-centered, or a combination and if the attributes and their values should be included. The conversion to an RCX object allows to store, share, and visualize the NetworkDifferences aspect.
 
 ------------------------------------------------------------------------------
 
-The `NetworkDifferences` aspect allows the tracking and visualization of the differences of two RCX-objects. The first part of this vignette explains in detail how this aspect works and at the end we take a closer look at how this functionality can be used for a real-life example. Many biological entities like proteins and genes are represented as biological networks with nodes and edges and comparing these networks can help to answer questions in medical research e. g. the real-life example illustrates how the `NetworkDifferences` aspect can be used to visualize the differences regarding genes, gene expression and other aspects of two breast cancer patients. 
+The NetworkDifferences aspect allows the tracking and visualization of the differences of two RCX-objects. The first part of this vignette explains in detail how this aspect works and at the end we take a closer look at how this functionality can be used for a real-life example. Many biological entities like proteins and genes are represented as biological networks with nodes and edges and comparing these networks can help to answer questions in medical research e. g. the real-life example illustrates how the NetworkDifferences aspect can be used to visualize the differences regarding genes, gene expression and other aspects of two breast cancer patients. 
 
-The `NetworkDifferences` aspect website is available at https://github.com/frankkramer-lab/RCX-NetworkDifferences  
+The NetworkDifferences aspect website is available at https://github.com/frankkramer-lab/RCX-NetworkDifferences  
 This package is an extension of the RCX package by Florian Auer. The json-based data structure CX is often used to store biological networks and the RCX package adapts the CX format to standard R data formats to create, modify, load, export, and visualize networks. 
 ```{r library, echo=FALSE, message=FALSE, include = FALSE}
 library(RCXNetworkDifferences)
 ```
 
-Two RCX-objects `left` and `right` are created that will be used as examples later.
+Two RCX-objects `left` and `right` are created and function as examples later.
 ```{r left right}
 left <- RCX::createRCX(
     nodes = RCX::createNodes(id=0:2, name=c("A","B","C"), represents=c("r1","r2","r3")),
@@ -69,7 +69,7 @@ rcxMatchByNameTRUE <- compareNetworks(left, right, matchByName = TRUE)
 rcxMatchByNameFALSE <- compareNetworks(left, right, matchByName = FALSE)
 ```
 
-The function returns an RCX network whereby the `nodes`, `nodeAttributes`, `edges`, and `edgeAttributes` of the right network are appended to the corresponding aspects of the left network. The `networkAttributes` are ignored as it is not possible to append the `networkAttributes` of the right network to the `networkAttributes` of the left network if the `networkAttributes` have the same name. An additional aspect called the `NetworkDifferences` aspect is added to the RCX network. It is a list with the `matchByName`-boolean and five dataframes to track the differences of `nodes`, `nodeAttributes`, `edges`, `edgeAttributes`, and `networkAttributes` of the two RCX objects.
+The function returns an RCX-object whereby the `nodes`, `nodeAttributes`, `edges`, and `edgeAttributes` of the right network are appended to the corresponding aspects of the left network. The `networkAttributes` are ignored as it is not possible to append the `networkAttributes` of the right network to the `networkAttributes` of the left network if two `networkAttributes` have the same name. An additional aspect called the NetworkDifferences aspect is added to the RCX-object. It is a list with the `matchByName`-boolean and five dataframes to track the differences of `nodes`, `nodeAttributes`, `edges`, `edgeAttributes`, and `networkAttributes` of the two RCX-objects.
 
 The structure of the returned RCX object is:
 ```
@@ -91,7 +91,7 @@ The combined network adds the aspects of the right network to the left network. 
 ```{r nodes}
 rcxMatchByNameTRUE$nodes
 ```
-The the `nodeAttributes` have updated values for `propertyOf` for `nodeAttributes` originating from the right network.
+The `nodeAttributes` have updated values for `propertyOf` for `nodeAttributes` originating from the right network.
 ```{r nodeAttributes}
 rcxMatchByNameTRUE$nodeAttributes
 ```
@@ -104,8 +104,8 @@ The last aspect are the `edgeAttributes`, again with updated values for `propert
 rcxMatchByNameTRUE$edgeAttributes
 ```
 
-### The networkDifferences-aspect
-The `NetworkDifferences`-aspect contains the information regarding the differences of `nodes`, `nodeAttributes`, `edges`, `edgeAttributes`, and `networkÀttributes`.
+### The NetworkDifferences aspect
+The NetworkDifferences-aspect contains the information regarding the differences of `nodes`, `nodeAttributes`, `edges`, `edgeAttributes`, and `networkÀttributes`.
 
 **The nodes-dataframe**
 
@@ -119,7 +119,7 @@ The right network has three nodes called A, B, and X with the represents r1, r4,
 ```{r right nodes}
 right$nodes
 ```
-If `matchByName` is `TRUE`, the created `nodes`-dataframe of the `NetworkDifferences` aspect is:
+If `matchByName` is `TRUE`, the created `nodes`-dataframe of the NetworkDifferences aspect is:
 ```{r mbnTRUE nodes}
 rcxMatchByNameTRUE$networkDifferences$nodes
 ```
@@ -139,8 +139,7 @@ left$nodeAttributes
 ```{r right nodeAttributes}
 right$nodeAttributes
 ```
-If `matchByName` is `TRUE`, the `nodeAttributes`-dataframe of the `
-`NetworkDifferences` aspect is:
+If `matchByName` is `TRUE`, the `nodeAttributes`-dataframe of the NetworkDifferences aspect is:
 ```{r mbnTRUE nodeAttributes}
 rcxMatchByNameTRUE$networkDifferences$nodeAttributes
 ```
@@ -153,14 +152,14 @@ rcxMatchByNameFALSE$networkDifferences$nodeAttributes
 
 The `edges`-dataframe tracks the differences of the `edges` in eight columns (`id`, `source`, `target`, `interaction`, `oldIdLeft`, `oldIdRight`, `belongsToLeft`, and `belongsToRight`). Two `edges` are equal if their `source` and `target` are equal (the `edges` are undirected so `source` and `target` can be switched) and if the `interaction` is equal or `NA` in both cases.
 
-*Example:* Both RCX-objects from section 1.2.1 and 1.2.2 have three edges which have the `interactions` 'E1', 'E2', and 'E3'. 
+*Example:* Both RCX-objects from section 1.2.1 and 1.2.2 have three edges which have the `interaction` 'E1', 'E2', and 'E3'. 
 ```{r left edges}
 left$edges
 ```
 ```{r right edges}
 right$edges
 ```
-If `matchByName` is set to `TRUE`, the `edges`-dataframe of the `NetworkDifferences` aspect is:
+If `matchByName` is set to `TRUE`, the `edges`-dataframe of the NetworkDifferences aspect is:
 ```{r mbnTRUE edges}
 rcxMatchByNameTRUE$networkDifferences$edges
 ```
@@ -180,7 +179,7 @@ left$edgeAttributes
 ```{r right edgeAttributes}
 right$edgeAttributes
 ```
-If `matchByName` is `TRUE`, the `edgeAttributes`-dataframe of the `NetworkDifferences` aspect is:
+If `matchByName` is `TRUE`, the `edgeAttributes`-dataframe of the NetworkDifferences aspect is:
 ```{r mbnTRUE edgeAttributes}
 rcxMatchByNameTRUE$networkDifferences$edgeAttributes
 ```
@@ -201,18 +200,18 @@ The right RCX-object has the name 'right network' and the description 'sample ne
 ```{r right networkAttributes}
 right$networkAttributes
 ```
-The `networkAttributes`-dataframe of the `NetworkDifferences` aspect is:
+The `networkAttributes`-dataframe of the NetworkDifferences aspect is:
 ```{r mbn networkAttributes}
 rcxMatchByNameTRUE$networkDifferences$networkAttributes
 ```
 
 ## The JSON-Conversion
-The RCX objects including the `NetworkDifferences` aspect can be converted into the json-based CX format and back in order to share the object. To convert the RCX-object into CX, the `toCX` function from the RCX package is used.
+The RCX-objects including the NetworkDifferences aspect can be converted into the json-based CX format and back in order to share the object. To convert the RCX-object into CX, the `toCX` function from the RCX package is used.
 ```{r rcxToJSON}
 json = RCX::toCX(rcxMatchByNameTRUE, verbose = TRUE)
 json
 ```
-The re-conversion is the responsibility of the function `processCX` but before the json-string has to be parsed. This RCX-object is printed and it is identical to the original RCX object.
+The re-conversion is the responsibility of the function `processCX` but before the json-string has to be parsed. The RCX-object is printed and it is identical to the original RCX object.
 ```{r JSONToRcx}
 jsonParsed = RCX:::parseJSON(json)
 rcx = RCX:::processCX(jsonParsed, verbose = TRUE)
@@ -220,7 +219,7 @@ rcx
 ```
 
 ## The Conversion of the Networkdifferences aspect to RCX-objects
-The `NetworkDifferences` aspect can be converted to RCX-objects in order to visualize the differences of the RCX-objects `left` and `right`. There are three options: node-centered, edge-centered and a combined version. The user can decide if the names and the values of the `node-` or `edgeAttributes` should be included. The `networkAttributes` are not visualized as they are not considered to be important.
+The NetworkDifferences aspect can be converted to RCX-objects in order to visualize the differences of the RCX-objects `left` and `right`. There are three options: node-centered, edge-centered and a combined version. The user can decide if the names and the values of the `node-` or `edgeAttributes` should be included. The `networkAttributes` are not visualized as they are not considered to be important.
 
 The elements that exist in both RCX-objects are colored gray, the elements that exist only in the left RCX-object are colored in light blue and the elements that exist only in the right RCX-object are orange.
 The shapes for the nodes are: 
@@ -238,7 +237,7 @@ The shapes for the nodes are:
 ### Node-centered RCX-objects
 With the node-centered RCX-objects the user can visualize the differences of the two given RCX-objects regarding the `nodes` and, if wished, the names and values of the `nodeAttributes`. The `exportDifferencesToNodeNetwork`-function has the `includeNamesAndRepresents`-parameter; if this parameter is set to `FALSE`, either the `represents` or the `names` are visualized (depending on `matchByName`); if `includeNamesAndRepresents` is set to `TRUE`, both `names` and `represents` are visualized.
 
-A cartesian layout is assigned to the RCX-object that structures the nodes in up to four layers: the the innermost layer for the nodes that belong to both networks, the next layer for the nodes that belongs either to the left or right RCX-object, the third layer (optional) is for the names of the nodeAttributes and the fourth layer (optional) is for the values of the nodeAttributes.
+A cartesian layout is assigned to the RCX-object that structures the nodes in up to four layers: the innermost layer is for the nodes that belong to both networks, the next layer for the nodes that belongs either to the left or right RCX-object, the third layer (optional) is for the names of the nodeAttributes and the fourth layer (optional) is for the values of the nodeAttributes.
 
 The position of the circles can be changed with several parameters:
 
@@ -248,7 +247,7 @@ The position of the circles can be changed with several parameters:
 
 * `startLayerAttributes` has the default value 0 and if this parameter is greater than `startLayerLeftRight`, it determines the position at which the circles for the names of the nodeAttributes start. The nodeAttributes that belong to both networks are located in the upper half of the circles, the nodeAttributes that belong to the left respectively right network are located in the lower left/right quadrant.
 
-* `startLayerValues` has the default value 0 and if this parameter is greater than `startLayerAttributes`, it determines the position at which the circles for the values of the nodeAttributes start. The values of the nodeAttributes that belong to both networks are located in the upper half (there can be one gray node if the values are equal in both networks or two nodes (blue and orange) if the values are different), the values of nodeAttributes that belongs only to one network are located in the lower left / right sector.
+* `startLayerValues` has the default value 0 and if this parameter is greater than `startLayerAttributes`, it determines the position at which the circles for the values of the nodeAttributes start. The values of the nodeAttributes that belong to both networks are located in the upper half (there can be one gray node if the values are equal in both networks or two nodes (blue and orange) if the values are different), the values of nodeAttributes that belongs only to one network are located in the lower left/right sector.
 
 The following figure shows the the differences of the RCX-objects from the section 1.2 with `matchByName` set to `TRUE`.
 
@@ -303,7 +302,7 @@ visualize(nodeEdgeNetwork)
 ![Node- and edge-centered RCX-object with matchByName TRUE without the visualization of the node- and edgeAttributes](The_networkDifferences_Aspect/nodesEdges.png){width=100%}
 
 # Real-life example
-The example from section 1 illustrates how the differences of the two RCX-objects are tracked and visualized but it is kept very simple. This section shows how the `NetworkDifferences` aspect can be applied to a real life example whereby the two RCX objects represent breast cancer patients.
+The example from section 1 illustrates how the differences of the two RCX-objects are tracked and visualized but it is kept very simple. This section shows how the NetworkDifferences aspect can be applied to a real life example whereby the two RCX objects represent breast cancer patients.
 
 The two RCX-objects can be extracted from the "Combined patient-specific breast cancer subnetworks" (UUID a420aaee-4be9-11ec-b3be-0ac135e8bacf on NDEx) and they show the networks of two breast cancer patients. These networks have nodes that represent genes, edges between the nodes, and nodeAttributes for the gene expression, gene expression level, and relevance score whereby the patient id is part of the name of the nodeAttributes. On the basis of the names of the nodeAttributes the nodes for a given patient id can be extracted. Then the edges and the nodeAttributes for the patient id are filtered and in the end, the patient id is removed from the name of the nodeAttributes.
 

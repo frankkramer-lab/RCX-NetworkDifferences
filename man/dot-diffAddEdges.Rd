@@ -2,14 +2,14 @@
 % Please edit documentation in R/compareNetworks.R
 \name{.diffAddEdges}
 \alias{.diffAddEdges}
-\title{Helper-function to add nodes for the edges to a \code{\link{RCX-object}}}
+\title{Helper-function to add nodes for the edges to an \code{\link{RCX-object}}}
 \usage{
 .diffAddEdges(rcx = NULL, edgeDf = NULL)
 }
 \arguments{
 \item{rcx}{\code{\link{RCX-object}}; the new created nodes representing edges are added to this \code{\link{RCX-object}}}
 
-\item{edgeDf}{dataframe; contains the information for the added nodes for the edges}
+\item{edgeDf}{dataframe; contains the information for the new nodes}
 }
 \value{
 \code{\link{RCX-object}}

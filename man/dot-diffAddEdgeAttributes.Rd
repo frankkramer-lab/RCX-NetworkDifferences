@@ -2,7 +2,7 @@
 % Please edit documentation in R/compareNetworks.R
 \name{.diffAddEdgeAttributes}
 \alias{.diffAddEdgeAttributes}
-\title{Helper-function to add nodes for the edgeAttributes to a \code{\link{RCX-object}}}
+\title{Helper-function to add nodes for the edgeAttributes to an \code{\link{RCX-object}}}
 \usage{
 .diffAddEdgeAttributes(
   rcx,
@@ -14,11 +14,11 @@
 \arguments{
 \item{rcx}{\code{\link{RCX-object}}; the new created nodes are added to this \code{\link{RCX-object}}}
 
+\item{edgeAttrDf}{dataframe; contains the information for the new nodes}
+
 \item{numberOfNodes}{integer (optional, default value 0); parameter to know at which id the nodes for the edges start (needed for the function \emph{rcxNodeEdgeNetwork})}
 
 \item{startLayerValues}{integer (optional, default value 0); if greater than 0, nodes for the values of the edgeAttributes are included}
-
-\item{nodeAttrDf}{dataframe; contains the information for the added nodes for the names and values of edgeAttributes}
 }
 \value{
 \code{\link{RCX-object}}

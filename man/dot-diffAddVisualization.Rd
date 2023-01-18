@@ -7,7 +7,7 @@
 .diffAddVisualization(rcx)
 }
 \arguments{
-\item{rcx}{\code{\link{RCX-object}}; the new created nodes are added to this \code{\link{RCX-object}}}
+\item{rcx}{\code{\link{RCX-object}}; the layout is added to this \code{\link{RCX-object}}}
 }
 \value{
 \code{\link{RCX-object}}

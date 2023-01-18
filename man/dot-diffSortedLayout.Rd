@@ -31,15 +31,15 @@ to one RCX-object start}
 the circles for the names of the nodesAttributes start}
 
 \item{startLayerValues}{integer (optional, default value 0); if greater than \emph{startLayerAttributes}, it determines the layer at which
-the circle for the values of the nodesAttribute start}
+the circles for the values of the nodesAttributes start}
 }
 \description{
 Calculates the position for the nodes of the \code{\link{RCX-object}} to visualize the differences of two RCX-objects.
 }
 \details{
-The layout of the \code{\link{RCX-object}} consists of concentric circles. The layers for the nodes / edges that exist in both network
-are defined through the parameter \emph{startLayerBoth}. The layers for the nodes / edges that exist only in one network are defined through the parameter
-\emph{startLayerLeftRight}. If \emph{startLayerAttributes} is greater than \emph{startLayerLeftRight}, the layers for the names of the node- / edgeAttributes
-start at \emph{startLayerAttributes}. If \emph{startLayerValues} is greater than \emph{startLayerAttributes}, the layers for the values of the node- / edgeAttributes
+The layout of the \code{\link{RCX-object}} consists of concentric circles. The layers for the nodes/edges that exist in both network
+are defined through the parameter \emph{startLayerBoth}. The layers for the nodes/edges that exist only in one network are defined through the parameter
+\emph{startLayerLeftRight}. If \emph{startLayerAttributes} is greater than \emph{startLayerLeftRight}, the layers for the names of the node-/edgeAttributes
+start at \emph{startLayerAttributes}. If \emph{startLayerValues} is greater than \emph{startLayerAttributes}, the layers for the values of the node-/edgeAttributes
 start at \emph{startLayerValues}.
 }
