@@ -34,7 +34,7 @@ the circles for the names of the nodesAttributes start}
 the circles for the values of the nodesAttributes start}
 }
 \description{
-Calculates the position for the nodes of the \code{\link{RCX-object}} to visualize the differences of two RCX-objects.
+Helper-function to define to node positions for the \code{\link{RCX-object}}
 }
 \details{
 The layout of the \code{\link{RCX-object}} consists of concentric circles. The layers for the nodes/edges that exist in both network

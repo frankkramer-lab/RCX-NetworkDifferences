@@ -13,7 +13,7 @@
 \code{\link{RCX-object}}
 }
 \description{
-Add layout to an existing \code{\link{RCX-object}} to visualize the differences of two RCX-objects.
+Helper-function to define the visualization for the \code{\link{RCX-object}}
 }
 \details{
 Node shape in the visualization: Node name: round, node represent: triangle, edge: rectangle, name of nodeAttribute: hexagon,

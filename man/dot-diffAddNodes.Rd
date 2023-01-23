@@ -2,7 +2,7 @@
 % Please edit documentation in R/compareNetworks.R
 \name{.diffAddNodes}
 \alias{.diffAddNodes}
-\title{Helper-function to add nodes to a \code{\link{RCX-object}}
+\title{Helper-function to add nodes to an RCX-object}
 \usage{
 .diffAddNodes(
   rcx = NULL,
@@ -12,7 +12,7 @@
 )
 }
 \arguments{
-\item{rcx}{\code{\link{RCX-object}}; the new nodes are added to this \code{\link{RCX-object}}}
+\item{rcx}{RCX-object; the new nodes are added to this RCX-object}
 
 \item{nodeDf}{dataframe; contains the information for the new nodes}
 
@@ -23,8 +23,8 @@ if set to \code{FALSE}, two nodes are equal when their represents are equal}
 node represents are created}
 }
 \value{
-\code{\link{RCX-object}
+RCX-object
 }
 \description{
-Add nodes for nodes names/represents to an \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
+Helper-function to add nodes to an RCX-object
 }

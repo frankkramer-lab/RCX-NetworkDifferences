@@ -28,6 +28,9 @@ right <- RCX::createRCX(
 rcxMatchByNameTRUE <- compareNetworks(left, right, matchByName = TRUE)
 rcxMatchByNameFALSE <- compareNetworks(left, right, matchByName = FALSE)
 
+## ----json---------------------------------------------------------------------
+RCX::toCX(rcxMatchByNameTRUE, pretty = TRUE)
+
 ## ----nodes--------------------------------------------------------------------
 rcxMatchByNameTRUE$nodes
 
@@ -98,7 +101,7 @@ right$networkAttributes
 rcxMatchByNameTRUE$networkDifferences$networkAttributes
 
 ## ----rcxToJSON----------------------------------------------------------------
-json = RCX::toCX(rcxMatchByNameTRUE, verbose = TRUE)
+json = RCX::toCX(rcxMatchByNameTRUE, verbose = TRUE, pretty = TRUE)
 json
 
 ## ----JSONToRcx----------------------------------------------------------------
@@ -134,12 +137,16 @@ visualize(nodeEdgeNetwork)
 nodeEdgeNetwork = exportDifferencesToNodeEdgeNetwork(rcxMatchByNameTRUE$networkDifferences, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 0, startLayerValues = 0)
 visualize(nodeEdgeNetwork)
 
+## ----loadNDeX-----------------------------------------------------------------
+library(ndexr)
+uuid = "a420aaee-4be9-11ec-b3be-0ac135e8bacf"
+ndex_con = ndex_connect()
+rcx = ndex_get_network(ndex_con, uuid)
+
 ## ----realLife subnetworks, tidy=FALSE-----------------------------------------
 library(stringr)
 
-rcx = readCX("/home/n/Augsburg/Bachelorarbeit/Combined patient-specific breast cancer subnetworks.cx")
-
-getNetwork <- function(
+getSubnetwork <- function(
         patientID = NULL,
         rcx = NULL,
         filterNodeAttributes = ""
@@ -178,19 +185,15 @@ getNetwork <- function(
     return(rcx)
 }
 
-rcxGSM615195 <- getNetwork("GSM615195", rcx, filterNodeAttributes = "GE_Level")
+rcxGSM615195 <- getSubnetwork("GSM615195", rcx, filterNodeAttributes = "GE_Level")
 
-rcxGSM615184 <- getNetwork("GSM615184", rcx, filterNodeAttributes = "GE_Level")
+rcxGSM615184 <- getSubnetwork("GSM615184", rcx, filterNodeAttributes = "GE_Level")
 
 ## ----realLife rcxGSM615195----------------------------------------------------
-head(rcxGSM615195$nodes)
-head(rcxGSM615195$nodeAttributes)
-head(rcxGSM615195$edges)
+summary(rcxGSM615195)
 
 ## ----realLife GSM615184-------------------------------------------------------
-head(rcxGSM615184$nodes)
-head(rcxGSM615184$nodeAttributes)
-head(rcxGSM615184$edges)
+summary(rcxGSM615184)
 
 ## ----realLife nodeNetwork-----------------------------------------------------
 netDif = compareNetworks(rcxGSM615195, rcxGSM615184, TRUE)

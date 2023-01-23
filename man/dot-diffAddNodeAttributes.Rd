@@ -2,20 +2,20 @@
 % Please edit documentation in R/compareNetworks.R
 \name{.diffAddNodeAttributes}
 \alias{.diffAddNodeAttributes}
-\title{Helper-function to add nodes for the nodeAttributes to an \code{\link{RCX-object}}}
+\title{Helper-function to add nodes for the nodeAttributes to an RCX-object}
 \usage{
 .diffAddNodeAttributes(rcx, nodeAttrDf = NULL, startLayerValues = 0)
 }
 \arguments{
-\item{rcx}{\code{\link{RCX-object}}; the new created nodes are added to this \code{\link{RCX-object}}}
+\item{rcx}{RCX-object; the new created nodes are added to this RCX-object}
 
 \item{nodeAttrDf}{dataframe; contains the information for the new nodes}
 
 \item{startLayerValues}{integer (optional, default value 0); if greater than 0, nodes for the values of the nodeAttributes are included}
 }
 \value{
-\code{\link{RCX-object}
+RCX-object
 }
 \description{
-Add nodes for nodeAttributes to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
+Helper-function to add nodes for the nodeAttributes to an RCX-object
 }

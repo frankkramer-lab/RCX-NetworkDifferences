@@ -15,5 +15,5 @@
 \code{\link{RCX-object}}
 }
 \description{
-Add nodes representing edges to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
+Helper-function to add nodes for the edges to an \code{\link{RCX-object}}
 }

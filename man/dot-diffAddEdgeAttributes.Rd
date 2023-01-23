@@ -24,5 +24,5 @@
 \code{\link{RCX-object}}
 }
 \description{
-Add nodes for edgeAttributes to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
+Helper-function to add nodes for the edgeAttributes to an \code{\link{RCX-object}}
 }

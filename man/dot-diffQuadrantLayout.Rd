@@ -19,5 +19,5 @@
 If the sector is greater or equal 4, a modulo 4 operation is performed to map the result to 0, 1, 2 or 3.}
 }
 \description{
-Calculates the position for the given nodes starting at a defined layer for a defined quadrant.
+Helper-function to calculate the positions of the nodes
 }

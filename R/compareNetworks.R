@@ -1099,17 +1099,16 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 }
 #---HELPER FUNCTIONS TO CREATE RCX-NETWORKS-------------------------------------
 
-#' Helper-function to add nodes to a \code{\link{RCX-object}
+#' Helper-function to add nodes to an RCX-object
 #' 
-#' Add nodes for nodes names/represents to an \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
-#' @param rcx \code{\link{RCX-object}}; the new nodes are added to this \code{\link{RCX-object}}
+#' @param rcx RCX-object; the new nodes are added to this RCX-object
 #' @param nodeDf dataframe; contains the information for the new nodes
 #' @param matchByName logical (optional, default value `TRUE`); if set to `TRUE`, two nodes are equal when their names are equal, 
 #' if set to `FALSE`, two nodes are equal when their represents are equal
 #' @param includeNamesAndRepresents logical (optional, default value `FALSE`); if set to `TRUE`, nodes for node names and 
 #' node represents are created
 #'
-#' @return \code{\link{RCX-object}
+#' @return RCX-object
 .diffAddNodes <-function(rcx=NULL, nodeDf=NULL, matchByName=TRUE, includeNamesAndRepresents=FALSE) {
     offsetNodes = 0
     ## Nodes for the names or represents of the nodes depending on the matchByName-boolean are added
@@ -1221,15 +1220,13 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
     return(rcx)
 }
 
-#' Helper-function to add nodes for the nodeAttributes to an \code{\link{RCX-object}}
+#' Helper-function to add nodes for the nodeAttributes to an RCX-object
 #' 
-#' Add nodes for nodeAttributes to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
-#' 
-#' @param rcx \code{\link{RCX-object}}; the new created nodes are added to this \code{\link{RCX-object}}
+#' @param rcx RCX-object; the new created nodes are added to this RCX-object
 #' @param nodeAttrDf dataframe; contains the information for the new nodes
 #' @param startLayerValues integer (optional, default value 0); if greater than 0, nodes for the values of the nodeAttributes are included
 #'
-#' @return \code{\link{RCX-object}
+#' @return RCX-object
 .diffAddNodeAttributes <- function(rcx, nodeAttrDf = NULL, startLayerValues=0) {
     ## Define offset
     offsetNodeAttributes = length(rcx$nodes$name)
@@ -1294,8 +1291,6 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 
 #' Helper-function to add nodes for the edges to an \code{\link{RCX-object}}
 #' 
-#' Add nodes representing edges to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
-#' 
 #' @param rcx \code{\link{RCX-object}}; the new created nodes representing edges are added to this \code{\link{RCX-object}}
 #' @param edgeDf dataframe; contains the information for the new nodes
 #' 
@@ -1348,8 +1343,6 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 }
 
 #' Helper-function to add nodes for the edgeAttributes to an \code{\link{RCX-object}}
-#' 
-#' Add nodes for edgeAttributes to an existing \code{\link{RCX-object}} that visualizes the differences of two RCX-objects.
 #' 
 #' @param rcx \code{\link{RCX-object}}; the new created nodes are added to this \code{\link{RCX-object}}
 #' @param edgeAttrDf dataframe; contains the information for the new nodes
@@ -1433,8 +1426,6 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 }
 
 #' Helper-function to define the visualization for the \code{\link{RCX-object}}
-#' 
-#' Add layout to an existing \code{\link{RCX-object}} to visualize the differences of two RCX-objects.
 #' 
 #' @details Node shape in the visualization: Node name: round, node represent: triangle, edge: rectangle, name of nodeAttribute: hexagon, 
 #' value of nodeAttribute: parallelogram, name of edgeAttribute: rectangle with round corner, value of edgeAttribute: diamond
@@ -1649,8 +1640,6 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 }
 
 #' Helper-function to define to node positions for the \code{\link{RCX-object}}
-#' 
-#' Calculates the position for the nodes of the \code{\link{RCX-object}} to visualize the differences of two RCX-objects.
 #' 
 #' @details The layout of the \code{\link{RCX-object}} consists of concentric circles. The layers for the nodes/edges that exist in both network
 #' are defined through the parameter *startLayerBoth*. The layers for the nodes/edges that exist only in one network are defined through the parameter
@@ -1955,8 +1944,6 @@ exportDifferencesToNodeEdgeNetwork <- function(aspect, includeNamesAndRepresents
 }
 
 #' Helper-function to calculate the positions of the nodes
-#' 
-#' Calculates the position for the given nodes starting at a defined layer for a defined quadrant.
 #'
 #' @param nodes integer list; contains the nodes ids to which the x- and y-coordinates are assigned
 #' @param dX integer (optional, default value 70); determines the width of the created circles
