@@ -722,6 +722,7 @@ compareNetworks = function(left=NULL, right=NULL, matchByName=TRUE) {
                    "edgeAttributes" = edgeAttributes, "networkAttributes" = networkAttributes)
     class(netDiff) = c(class(netDiff), "NetworkDifferencesAspect")
     resultRCX$networkDifferences <- netDiff
+    resultRCX <- updateMetaData(resultRCX)
     ## Return result
     return(resultRCX)
 }

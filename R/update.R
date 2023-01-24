@@ -19,5 +19,6 @@ updateNetworkDifferences.RCX = function(x, networkDifferences, ...){
         stop('aspect must be from the type networkDifferencesAspect')
     }
     x$networkDifferences <- networkDifferences
+    x <- updateMetaData(x, aspectClasses = aspectClasses)
     return(x)
 }

@@ -223,7 +223,7 @@ The re-conversion is the responsibility of the function `processCX` but before t
 ```{r JSONToRcx}
 jsonParsed = RCX:::parseJSON(json)
 rcx = RCX:::processCX(jsonParsed, verbose = TRUE)
-rcx
+rcx$metaData
 ```
 
 ## The Conversion of the Networkdifferences aspect to RCX-objects
