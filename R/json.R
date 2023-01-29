@@ -92,7 +92,7 @@ rcxToJson.NetworkDifferencesAspect = function(aspect, verbose = FALSE) {
     ## Create result
     json = paste0('{"matchByName":',aspect$matchByName,'},{"nodes":',aspect$nodes,'},{"nodeAttributes":',aspect$nodeAttributes,
                   '},{"edges":',aspect$edges,'},{"edgeAttributes":',aspect$edgeAttributes,'},{"networkAttributes":',aspect$networkAttributes,'}')
-    json = paste0('{"NetworkDifferencesAspect":[',json,']}')
+    json = paste0('{"networkDifferences":[',json,']}')
     if(verbose) cat("done!\n")
     return(json)
 }
@@ -131,7 +131,7 @@ rcxToJson.NetworkDifferencesAspect = function(aspect, verbose = FALSE) {
 #' @importFrom RCX jsonToRCX
 #'
 #' @seealso [RCX::rcxToJson], [RCX::toCX], [RCX::readCX], [RCX::writeCX]
-jsonToRCX.NetworkDifferencesAspect = function(jsonData, verbose){
+jsonToRCX.networkDifferences = function(jsonData, verbose){
     if(verbose) cat("Parsing networkDifferences...")
     ## matchByName
     jsonData = jsonData[[1]]

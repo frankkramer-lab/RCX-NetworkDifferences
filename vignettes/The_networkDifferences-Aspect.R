@@ -8,20 +8,20 @@ knitr::opts_chunk$set(tidy.opts=list(width.cutoff=55,
 library(RCXNetworkDifferences)
 
 ## ----left right---------------------------------------------------------------
-left <- RCX::createRCX(
-    nodes = RCX::createNodes(id=0:2, name=c("A","B","C"), represents=c("r1","r2","r3")),
-    edges = RCX::createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3")),
-    nodeAttributes = RCX::createNodeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("w", c("x", "y"))),
-    edgeAttributes = RCX::createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = c("k", "l")),
-    networkAttributes = RCX::createNetworkAttributes(name = c("name", "author"), value = c("left network", "Donald Duck"))
+left <- createRCX(
+    nodes = createNodes(id=0:2, name=c("A","B","C"), represents=c("r1","r2","r3")),
+    edges = createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3")),
+    nodeAttributes = createNodeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("w", c("x", "y"))),
+    edgeAttributes = createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = c("k", "l")),
+    networkAttributes = createNetworkAttributes(name = c("name", "author"), value = c("left network", "Donald Duck"))
 )
 
-right <- RCX::createRCX(
-    nodes = RCX::createNodes(name = c("A", "B", "X"), represents = c ("r1", "r4", "r5")),
-    edges = RCX::createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3")),
-    nodeAttributes = RCX::createNodeAttributes(propertyOf = c(0, 1), name = c("type", "type"),value = list("z", c("x", "y"))),
-    edgeAttributes = RCX::createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("n" , c("l", "m"))),
-    networkAttributes = RCX::createNetworkAttributes(name = c("name", "description"), value = c("right network", "sample network"))
+right <- createRCX(
+    nodes = createNodes(name = c("A", "B", "X"), represents = c ("r1", "r4", "r5")),
+    edges = createEdges(source = c(0, 1, 2), target = c(1, 2, 0), interaction = c("E1", "E2", "E3")),
+    nodeAttributes = createNodeAttributes(propertyOf = c(0, 1), name = c("type", "type"),value = list("z", c("x", "y"))),
+    edgeAttributes = createEdgeAttributes(propertyOf = c(0, 1), name = rep("type", 2), value = list("n" , c("l", "m"))),
+    networkAttributes = createNetworkAttributes(name = c("name", "description"), value = c("right network", "sample network"))
 )
 
 ## ----compareNetworks----------------------------------------------------------
@@ -29,7 +29,7 @@ rcxMatchByNameTRUE <- compareNetworks(left, right, matchByName = TRUE)
 rcxMatchByNameFALSE <- compareNetworks(left, right, matchByName = FALSE)
 
 ## ----json---------------------------------------------------------------------
-RCX::toCX(rcxMatchByNameTRUE, pretty = TRUE)
+toCX(rcxMatchByNameTRUE, pretty = TRUE)
 
 ## ----nodes--------------------------------------------------------------------
 rcxMatchByNameTRUE$nodes
@@ -101,41 +101,55 @@ right$networkAttributes
 rcxMatchByNameTRUE$networkDifferences$networkAttributes
 
 ## ----rcxToJSON----------------------------------------------------------------
-json = RCX::toCX(rcxMatchByNameTRUE, verbose = TRUE, pretty = TRUE)
+json = toCX(rcxMatchByNameTRUE, verbose = TRUE, pretty = TRUE)
 json
 
 ## ----JSONToRcx----------------------------------------------------------------
-jsonParsed = RCX:::parseJSON(json)
-rcx = RCX:::processCX(jsonParsed, verbose = TRUE)
-rcx
+jsonParsed = parseJSON(json)
+rcx = processCX(jsonParsed, verbose = TRUE)
+rcx$metaData
 
-## ----mbnTRUE nodeNetwork------------------------------------------------------
+## ----mbnTRUE_nodeNetwork------------------------------------------------------
 nodeNetwork = exportDifferencesToNodeNetwork(rcxMatchByNameTRUE$networkDifferences, includeNamesAndRepresents = FALSE, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 3, startLayerValues = 4)
-visualize(nodeNetwork)
 
-## ----mbnFALSE nodeNetwork-----------------------------------------------------
+## ----mbnTRUE_nodeNetwork2, eval=FALSE-----------------------------------------
+#  visualize(nodeNetwork)
+
+## ----mbnFALSE_nodeNetwork-----------------------------------------------------
 nodeNetwork = exportDifferencesToNodeNetwork(rcxMatchByNameFALSE$networkDifferences, includeNamesAndRepresents = FALSE, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 3, startLayerValues = 4)
-visualize(nodeNetwork)
 
-## ----mbnTRUE NodeNetworkRepr--------------------------------------------------
+## ----mbnFALSE_nodeNetwork2, eval=FALSE----------------------------------------
+#  visualize(nodeNetwork)
+
+## ----mbnTRUE_NodeNetworkRepr--------------------------------------------------
 nodeNetwork = exportDifferencesToNodeNetwork(rcxMatchByNameTRUE$networkDifferences, includeNamesAndRepresents = TRUE, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 3, startLayerValues = 4)
-visualize(nodeNetwork)
 
-## ----mbnTRUE edgeNetwork------------------------------------------------------
+## ----mbnTRUE_NodeNetworkRepr2, eval=FALSE-------------------------------------
+#  visualize(nodeNetwork)
+
+## ----mbnTRUE_edgeNetwork------------------------------------------------------
 edgeNetwork = exportDifferencesToEdgeNetwork(rcxMatchByNameTRUE$networkDifferences, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 3, startLayerValues = 4)
-visualize(edgeNetwork)
 
-## ----mbnFALSE edgeNetwork-----------------------------------------------------
+## ----mbnTRUE_edgeNetwork2, eval=FALSE-----------------------------------------
+#  visualize(edgeNetwork)
+
+## ----mbnFALSE_edgeNetwork-----------------------------------------------------
 edgeNetwork = exportDifferencesToEdgeNetwork(rcxMatchByNameFALSE$networkDifferences, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 3, startLayerValues = 4)
-visualize(edgeNetwork)
 
-## ----mbnTRUE nodeEdgeNetwork--------------------------------------------------
+## ----mbnFALSE_edgeNetwork2, eval=FALSE----------------------------------------
+#  visualize(edgeNetwork)
+
+## ----mbnTRUE_nodeEdgeNetwork--------------------------------------------------
 nodeEdgeNetwork = exportDifferencesToNodeEdgeNetwork(rcxMatchByNameTRUE$networkDifferences, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 3, startLayerValues = 4)
-visualize(nodeEdgeNetwork)
 
-## ----mbnTRUE nodeEdgeNetworkRepr----------------------------------------------
+## ----mbnTRUE_nodeEdgeNetwork2, eval=FALSE-------------------------------------
+#  visualize(nodeEdgeNetwork)
+
+## ----mbnTRUE_nodeEdgeNetworkRepr----------------------------------------------
 nodeEdgeNetwork = exportDifferencesToNodeEdgeNetwork(rcxMatchByNameTRUE$networkDifferences, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 0, startLayerValues = 0)
-visualize(nodeEdgeNetwork)
+
+## ----mbnTRUE_nodeEdgeNetworkRepr2, eval=FALSE---------------------------------
+#  visualize(nodeEdgeNetwork)
 
 ## ----loadNDeX-----------------------------------------------------------------
 library(ndexr)
@@ -195,17 +209,19 @@ summary(rcxGSM615195)
 ## ----realLife GSM615184-------------------------------------------------------
 summary(rcxGSM615184)
 
-## ----realLife nodeNetwork-----------------------------------------------------
+## ----realLife_nodeNetwork-----------------------------------------------------
 netDif = compareNetworks(rcxGSM615195, rcxGSM615184, TRUE)
 
 nodesNetwork = exportDifferencesToNodeNetwork(netDif$networkDifferences)
 
-visualize(nodesNetwork)
+## ----realLife_nodeNetwork2, eval=FALSE----------------------------------------
+#  visualize(nodesNetwork)
 
-## ----realLife nodeAttributesNetwork-------------------------------------------
+## ----realLife_nodeAttributesNetwork-------------------------------------------
 nodesAttributesValuesNetwork = exportDifferencesToNodeNetwork(netDif$networkDifferences, startLayerAttributes = 15, startLayerValues = 20)
 
-visualize(nodesAttributesValuesNetwork)
+## ----realLife_nodeAttributesNetwork2, eval=FALSE------------------------------
+#  visualize(nodesAttributesValuesNetwork)
 
 ## ----sessionInfo--------------------------------------------------------------
 sessionInfo()
