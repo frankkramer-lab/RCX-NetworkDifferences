@@ -24,7 +24,7 @@ knitr::opts_chunk$set(tidy.opts=list(width.cutoff=55,
 ```
 
 # The NetworkDifferences-Aspect
-*The networkDifferences-aspect in a nutshell:* This vignette explains the NetworkDifferences aspect in detail but this section summarizes the main ideas: 
+*The networkDifferences-aspect in a nutshell:* This document explains the NetworkDifferences aspect in detail but this section summarizes the main ideas: 
 
 * The NetworkDifferences aspect tracks the differences of two networks represented as RCX-objects. The `compareNetworks`-function returns an RCX-object whereby the nodes-, nodeAttributes-, edges-, and edgeAttributes-aspects are a combination of the two given RCX-objects `left` and `right`. This RCX-object has the NetworkDifferences aspect, too, which is a list containing five dataframes to monitor the differences regarding the nodes, nodeAttributes, edges, edgeAttributes, and networkAttributes.
 
@@ -38,7 +38,7 @@ The NetworkDifferences aspect allows the tracking and visualization of the diffe
 
 The NetworkDifferences aspect website is available at https://github.com/frankkramer-lab/RCX-NetworkDifferences  
 This package is an extension of the RCX package by Florian Auer (Bioconductor: https://bioconductor.org/packages/release/bioc/html/RCX.html, Github: https://github.com/frankkramer-lab/RCX). The json-based data structure CX is often used to store biological networks and the RCX package adapts the CX format to standard R data formats to create, modify, load, export, and visualize networks. 
-```{r library, echo=FALSE, message=FALSE, include = FALSE}
+```{r library, echo=FALSE, message=FALSE, include = TRUE, eval=TRUE}
 library(RCXNetworkDifferences)
 ```
 
@@ -223,7 +223,6 @@ The re-conversion is the responsibility of the function `processCX` but before t
 ```{r JSONToRcx}
 jsonParsed = parseJSON(json)
 rcx = processCX(jsonParsed, verbose = TRUE)
-rcx$metaData
 ```
 
 ## The Conversion of the Networkdifferences aspect to RCX-objects
@@ -427,5 +426,5 @@ sessionInfo()
 ```
 
 ```{r readme, eval=FALSE, include=FALSE}
-rmarkdown::render("The_networkDifferences-Aspect.Rmd", rmarkdown::md_document(variant = "markdown_github"), output_file = "../README.md")
+rmarkdown::render("The_networkDifferences-Aspect.Rmd", rmarkdown::md_document(variant = "gfm", df_print = "kable"), output_file = "../README.md")
 ```

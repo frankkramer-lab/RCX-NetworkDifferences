@@ -4,25 +4,25 @@
 the NetworkDifferences aspect in detail but this section summarizes the
 main ideas:
 
--   The NetworkDifferences aspect tracks the differences of two networks
-    represented as RCX-objects. The `compareNetworks`-function returns
-    an RCX-object whereby the nodes-, nodeAttributes-, edges-, and
-    edgeAttributes-aspects are a combination of the two given
-    RCX-objects `left` and `right`. This RCX-object has the
-    NetworkDifferences aspect, too, which is a list containing five
-    dataframes to monitor the differences regarding the nodes,
-    nodeAttributes, edges, edgeAttributes, and networkAttributes.
+- The NetworkDifferences aspect tracks the differences of two networks
+  represented as RCX-objects. The `compareNetworks`-function returns an
+  RCX-object whereby the nodes-, nodeAttributes-, edges-, and
+  edgeAttributes-aspects are a combination of the two given RCX-objects
+  `left` and `right`. This RCX-object has the NetworkDifferences aspect,
+  too, which is a list containing five dataframes to monitor the
+  differences regarding the nodes, nodeAttributes, edges,
+  edgeAttributes, and networkAttributes.
 
--   The RCX-object including the NetworkDifferences aspect can be
-    converted to the json-based data structure CX and back by using the
-    `toCX`- and `processCX`-functions provided by the RCX package.
+- The RCX-object including the NetworkDifferences aspect can be
+  converted to the json-based data structure CX and back by using the
+  `toCX`- and `processCX`-functions provided by the RCX package.
 
--   The NetworkDifferences aspect can be converted to RCX-objects that
-    visualize the differences of the two given networks with focus on
-    their topology. The user can select if the RCX-object should be
-    node-centered, edge-centered, or a combination and if the attributes
-    and their values should be included. The conversion to an RCX object
-    allows to store, share, and visualize the NetworkDifferences aspect.
+- The NetworkDifferences aspect can be converted to RCX-objects that
+  visualize the differences of the two given networks with focus on
+  their topology. The user can select if the RCX-object should be
+  node-centered, edge-centered, or a combination and if the attributes
+  and their values should be included. The conversion to an RCX object
+  allows to store, share, and visualize the NetworkDifferences aspect.
 
 ------------------------------------------------------------------------
 
@@ -561,7 +561,18 @@ network. For the `nodes` it is:
 rcxMatchByNameTRUE$nodes
 ```
 
-    ## Nodes:
+<div class="kable-table">
+
+|  id | name | represents | oldId |
+|----:|:-----|:-----------|------:|
+|   0 | A    | r1         |     0 |
+|   1 | B    | r2         |     1 |
+|   2 | C    | r3         |     2 |
+|   3 | A    | r1         |     0 |
+|   4 | B    | r4         |     1 |
+|   5 | X    | r5         |     2 |
+
+</div>
 
 The `nodeAttributes` have updated values for `propertyOf` for
 `nodeAttributes` originating from the right network.
@@ -570,7 +581,16 @@ The `nodeAttributes` have updated values for `propertyOf` for
 rcxMatchByNameTRUE$nodeAttributes
 ```
 
-    ## Node attributes:
+<div class="kable-table">
+
+| propertyOf | name | value | dataType | isList |
+|-----------:|:-----|:------|:---------|:-------|
+|          0 | type | w     | string   | FALSE  |
+|          1 | type | x, y  | string   | TRUE   |
+|          3 | type | z     | string   | FALSE  |
+|          4 | type | x, y  | string   | TRUE   |
+
+</div>
 
 The dataframe for the `edges` contains updated values for `source` and
 `target` for `edges` originating from the right network.
@@ -579,7 +599,18 @@ The dataframe for the `edges` contains updated values for `source` and
 rcxMatchByNameTRUE$edges
 ```
 
-    ## Edges:
+<div class="kable-table">
+
+|  id | source | target | interaction | oldId |
+|----:|-------:|-------:|:------------|------:|
+|   0 |      0 |      1 | E1          |     0 |
+|   1 |      1 |      2 | E2          |     1 |
+|   2 |      2 |      0 | E3          |     2 |
+|   3 |      3 |      4 | E1          |     0 |
+|   4 |      4 |      5 | E2          |     1 |
+|   5 |      5 |      3 | E3          |     2 |
+
+</div>
 
 The last aspect are the `edgeAttributes`, again with updated values for
 `propertyOf` for the `edgeAttributes` originating from the right
@@ -589,7 +620,16 @@ network.
 rcxMatchByNameTRUE$edgeAttributes
 ```
 
-    ## Edge attributes:
+<div class="kable-table">
+
+| propertyOf | name | value | dataType | isList |
+|-----------:|:-----|:------|:---------|:-------|
+|          0 | type | k     | string   | FALSE  |
+|          1 | type | l     | string   | FALSE  |
+|          3 | type | n     | string   | FALSE  |
+|          4 | type | l, m  | string   | TRUE   |
+
+</div>
 
 ### The NetworkDifferences aspect
 
@@ -615,7 +655,15 @@ represents r1, r2, and r3.
 left$nodes
 ```
 
-    ## Nodes:
+<div class="kable-table">
+
+|  id | name | represents |
+|----:|:-----|:-----------|
+|   0 | A    | r1         |
+|   1 | B    | r2         |
+|   2 | C    | r3         |
+
+</div>
 
 The right network has three nodes called A, B, and X with the represents
 r1, r4, and r5.
@@ -624,7 +672,15 @@ r1, r4, and r5.
 right$nodes
 ```
 
-    ## Nodes:
+<div class="kable-table">
+
+|  id | name | represents |
+|----:|:-----|:-----------|
+|   0 | A    | r1         |
+|   1 | B    | r4         |
+|   2 | X    | r5         |
+
+</div>
 
 If `matchByName` is `TRUE`, the created `nodes`-dataframe of the
 NetworkDifferences aspect is:
@@ -633,11 +689,34 @@ NetworkDifferences aspect is:
 rcxMatchByNameTRUE$networkDifferences$nodes
 ```
 
+<div class="kable-table">
+
+| id  | name | representLeft | representRight | oldIdLeft | oldIdRight | belongsToLeft | belongsToRight |
+|:----|:-----|:--------------|:---------------|:----------|:-----------|:--------------|:---------------|
+| 0   | A    | r1            | r1             | 0         | 0          | TRUE          | TRUE           |
+| 1   | B    | r2            | r4             | 1         | 1          | TRUE          | TRUE           |
+| 2   | C    | r3            | NA             | 2         | NA         | TRUE          | FALSE          |
+| 3   | X    | NA            | r5             | NA        | 2          | FALSE         | TRUE           |
+
+</div>
+
 If `matchByName` is `FALSE`, the created `nodes`-dataframe is:
 
 ``` r
 rcxMatchByNameFALSE$networkDifferences$nodes
 ```
+
+<div class="kable-table">
+
+| id  | nameLeft | nameRight | represent | oldIdLeft | oldIdRight | belongsToLeft | belongsToRight |
+|:----|:---------|:----------|:----------|:----------|:-----------|:--------------|:---------------|
+| 0   | A        | A         | r1        | 0         | 0          | TRUE          | TRUE           |
+| 1   | B        | NA        | r2        | 1         | NA         | TRUE          | FALSE          |
+| 2   | C        | NA        | r3        | 2         | NA         | TRUE          | FALSE          |
+| 3   | NA       | B         | r4        | NA        | 1          | FALSE         | TRUE           |
+| 4   | NA       | X         | r5        | NA        | 2          | FALSE         | TRUE           |
+
+</div>
 
 **The nodeAttributes-dataframe**
 
@@ -655,13 +734,27 @@ RCX-objects, the nodes with the id 0 and 1 have the attribute ‘type’.
 left$nodeAttributes
 ```
 
-    ## Node attributes:
+<div class="kable-table">
+
+| propertyOf | name | value | dataType | isList |
+|-----------:|:-----|:------|:---------|:-------|
+|          0 | type | w     | string   | FALSE  |
+|          1 | type | x, y  | string   | TRUE   |
+
+</div>
 
 ``` r
 right$nodeAttributes
 ```
 
-    ## Node attributes:
+<div class="kable-table">
+
+| propertyOf | name | value | dataType | isList |
+|-----------:|:-----|:------|:---------|:-------|
+|          0 | type | z     | string   | FALSE  |
+|          1 | type | x, y  | string   | TRUE   |
+
+</div>
 
 If `matchByName` is `TRUE`, the `nodeAttributes`-dataframe of the
 NetworkDifferences aspect is:
@@ -670,11 +763,30 @@ NetworkDifferences aspect is:
 rcxMatchByNameTRUE$networkDifferences$nodeAttributes
 ```
 
+<div class="kable-table">
+
+| propertyOf | name | belongsToLeft | belongsToRight | dataTypeLeft | dataTypeRight | isListLeft | isListRight | valueLeft   | valueRight  |
+|:-----------|:-----|:--------------|:---------------|:-------------|:--------------|:-----------|:------------|:------------|:------------|
+| 0          | type | TRUE          | TRUE           | string       | string        | FALSE      | FALSE       | w           | z           |
+| 1          | type | TRUE          | TRUE           | string       | string        | TRUE       | TRUE        | c(“x”, “y”) | c(“x”, “y”) |
+
+</div>
+
 If `matchByName` is `FALSE`, the `nodeAttributes`-dataframe is:
 
 ``` r
 rcxMatchByNameFALSE$networkDifferences$nodeAttributes
 ```
+
+<div class="kable-table">
+
+| propertyOf | name | belongsToLeft | belongsToRight | dataTypeLeft | dataTypeRight | isListLeft | isListRight | valueLeft   | valueRight  |
+|:-----------|:-----|:--------------|:---------------|:-------------|:--------------|:-----------|:------------|:------------|:------------|
+| 0          | type | TRUE          | TRUE           | string       | string        | FALSE      | FALSE       | w           | z           |
+| 1          | type | TRUE          | FALSE          | string       | NA            | TRUE       | NA          | c(“x”, “y”) | NA          |
+| 3          | type | FALSE         | TRUE           | NA           | string        | NA         | TRUE        | NA          | c(“x”, “y”) |
+
+</div>
 
 **The edge-dataframe**
 
@@ -692,13 +804,29 @@ edges which have the `interaction` ‘E1’, ‘E2’, and ‘E3’.
 left$edges
 ```
 
-    ## Edges:
+<div class="kable-table">
+
+|  id | source | target | interaction |
+|----:|-------:|-------:|:------------|
+|   0 |      0 |      1 | E1          |
+|   1 |      1 |      2 | E2          |
+|   2 |      2 |      0 | E3          |
+
+</div>
 
 ``` r
 right$edges
 ```
 
-    ## Edges:
+<div class="kable-table">
+
+|  id | source | target | interaction |
+|----:|-------:|-------:|:------------|
+|   0 |      0 |      1 | E1          |
+|   1 |      1 |      2 | E2          |
+|   2 |      2 |      0 | E3          |
+
+</div>
 
 If `matchByName` is set to `TRUE`, the `edges`-dataframe of the
 NetworkDifferences aspect is:
@@ -707,11 +835,36 @@ NetworkDifferences aspect is:
 rcxMatchByNameTRUE$networkDifferences$edges
 ```
 
+<div class="kable-table">
+
+| id  | source | target | interaction | oldIdLeft | oldIdRight | belongsToLeft | belongsToRight |
+|:----|:-------|:-------|:------------|:----------|:-----------|:--------------|:---------------|
+| 0   | 0      | 1      | E1          | 0         | 0          | TRUE          | TRUE           |
+| 1   | 1      | 2      | E2          | 1         | NA         | TRUE          | FALSE          |
+| 2   | 2      | 0      | E3          | 2         | NA         | TRUE          | FALSE          |
+| 3   | 1      | 3      | E2          | NA        | 1          | FALSE         | TRUE           |
+| 4   | 3      | 0      | E3          | NA        | 2          | FALSE         | TRUE           |
+
+</div>
+
 If `matchByName` is set to `FALSE`, the `edges`-dataframe is:
 
 ``` r
 rcxMatchByNameFALSE$networkDifferences$edges
 ```
+
+<div class="kable-table">
+
+| id  | source | target | interaction | oldIdLeft | oldIdRight | belongsToLeft | belongsToRight |
+|:----|:-------|:-------|:------------|:----------|:-----------|:--------------|:---------------|
+| 0   | 0      | 1      | E1          | 0         | NA         | TRUE          | FALSE          |
+| 1   | 1      | 2      | E2          | 1         | NA         | TRUE          | FALSE          |
+| 2   | 2      | 0      | E3          | 2         | NA         | TRUE          | FALSE          |
+| 3   | 0      | 3      | E1          | NA        | 0          | FALSE         | TRUE           |
+| 4   | 3      | 4      | E2          | NA        | 1          | FALSE         | TRUE           |
+| 5   | 4      | 0      | E3          | NA        | 2          | FALSE         | TRUE           |
+
+</div>
 
 **The edgeAttributes-dataframe**
 
@@ -729,13 +882,27 @@ RCX-objects, the edges with the id 0 and 1 have the attribute ‘type’.
 left$edgeAttributes
 ```
 
-    ## Edge attributes:
+<div class="kable-table">
+
+| propertyOf | name | value | dataType | isList |
+|-----------:|:-----|:------|:---------|:-------|
+|          0 | type | k     | string   | FALSE  |
+|          1 | type | l     | string   | FALSE  |
+
+</div>
 
 ``` r
 right$edgeAttributes
 ```
 
-    ## Edge attributes:
+<div class="kable-table">
+
+| propertyOf | name | value | dataType | isList |
+|-----------:|:-----|:------|:---------|:-------|
+|          0 | type | n     | string   | FALSE  |
+|          1 | type | l, m  | string   | TRUE   |
+
+</div>
 
 If `matchByName` is `TRUE`, the `edgeAttributes`-dataframe of the
 NetworkDifferences aspect is:
@@ -744,11 +911,32 @@ NetworkDifferences aspect is:
 rcxMatchByNameTRUE$networkDifferences$edgeAttributes
 ```
 
+<div class="kable-table">
+
+| propertyOf | name | belongsToLeft | belongsToRight | dataTypeLeft | dataTypeRight | isListLeft | isListRight | valueLeft | valueRight  |
+|:-----------|:-----|:--------------|:---------------|:-------------|:--------------|:-----------|:------------|:----------|:------------|
+| 0          | type | TRUE          | TRUE           | string       | string        | FALSE      | FALSE       | k         | n           |
+| 1          | type | TRUE          | FALSE          | string       | NA            | FALSE      | NA          | l         | NA          |
+| 3          | type | FALSE         | TRUE           | NA           | string        | NA         | TRUE        | NA        | c(“l”, “m”) |
+
+</div>
+
 If `matchByName` is `FALSE`, the `edgeAttributes`-dataframe is:
 
 ``` r
 rcxMatchByNameFALSE$networkDifferences$edgeAttributes
 ```
+
+<div class="kable-table">
+
+| propertyOf | name | belongsToLeft | belongsToRight | dataTypeLeft | dataTypeRight | isListLeft | isListRight | valueLeft | valueRight  |
+|:-----------|:-----|:--------------|:---------------|:-------------|:--------------|:-----------|:------------|:----------|:------------|
+| 0          | type | TRUE          | FALSE          | string       | NA            | FALSE      | NA          | k         | NA          |
+| 1          | type | TRUE          | FALSE          | string       | NA            | FALSE      | NA          | l         | NA          |
+| 3          | type | FALSE         | TRUE           | NA           | string        | NA         | FALSE       | NA        | n           |
+| 4          | type | FALSE         | TRUE           | NA           | string        | NA         | TRUE        | NA        | c(“l”, “m”) |
+
+</div>
 
 **The networkAttributes-dataframe**
 
@@ -766,7 +954,14 @@ Duck’.
 left$networkAttributes
 ```
 
-    ## Network attributes:
+<div class="kable-table">
+
+| name   | value        | dataType | isList |
+|:-------|:-------------|:---------|:-------|
+| name   | left network | string   | FALSE  |
+| author | Donald Duck  | string   | FALSE  |
+
+</div>
 
 The right RCX-object has the name ‘right network’ and the description
 ‘sample network’.
@@ -775,13 +970,30 @@ The right RCX-object has the name ‘right network’ and the description
 right$networkAttributes
 ```
 
-    ## Network attributes:
+<div class="kable-table">
+
+| name        | value          | dataType | isList |
+|:------------|:---------------|:---------|:-------|
+| name        | right network  | string   | FALSE  |
+| description | sample network | string   | FALSE  |
+
+</div>
 
 The `networkAttributes`-dataframe of the NetworkDifferences aspect is:
 
 ``` r
 rcxMatchByNameTRUE$networkDifferences$networkAttributes
 ```
+
+<div class="kable-table">
+
+| name        | belongsToLeft | belongsToRight | dataTypeLeft | dataTypeRight | isListLeft | isListRight | valueLeft    | valueRight     |
+|:------------|:--------------|:---------------|:-------------|:--------------|:-----------|:------------|:-------------|:---------------|
+| name        | TRUE          | TRUE           | string       | string        | FALSE      | FALSE       | left network | right network  |
+| author      | TRUE          | FALSE          | string       | NA            | FALSE      | NA          | Donald Duck  | NA             |
+| description | FALSE         | TRUE           | NA           | string        | NA         | TRUE        | NA           | sample network |
+
+</div>
 
 ## The JSON-Conversion
 
@@ -1237,12 +1449,6 @@ rcx <- processCX(jsonParsed, verbose = TRUE)
     ## Ignore "status" aspect, not necessary in RCX!
     ## Can't process aspect "status", so skip it...done!
 
-``` r
-rcx$metaData
-```
-
-    ## Meta-data:
-
 ## The Conversion of the Networkdifferences aspect to RCX-objects
 
 The NetworkDifferences aspect can be converted to RCX-objects in order
@@ -1287,32 +1493,32 @@ for the values of the nodeAttributes.
 
 The position of the circles can be changed with several parameters:
 
--   `startLayerBoth` has the default value 5 and determines the position
-    at which the circles for the nodes that belong to both RCX-objects
-    start
+- `startLayerBoth` has the default value 5 and determines the position
+  at which the circles for the nodes that belong to both RCX-objects
+  start
 
--   `startLayerLeftRight` has the default value 10 and determines the
-    position at which the circles for the nodes that belong only to one
-    RCX-objects start (it must be greater than `startLayerLeftRight`).
-    The nodes that belong to the left network are in the left half and
-    the nodes of the right network are located in the right half.
+- `startLayerLeftRight` has the default value 10 and determines the
+  position at which the circles for the nodes that belong only to one
+  RCX-objects start (it must be greater than `startLayerLeftRight`). The
+  nodes that belong to the left network are in the left half and the
+  nodes of the right network are located in the right half.
 
--   `startLayerAttributes` has the default value 0 and if this parameter
-    is greater than `startLayerLeftRight`, it determines the position at
-    which the circles for the names of the nodeAttributes start. The
-    nodeAttributes that belong to both networks are located in the upper
-    half of the circles, the nodeAttributes that belong to the left
-    respectively right network are located in the lower left/right
-    quadrant.
+- `startLayerAttributes` has the default value 0 and if this parameter
+  is greater than `startLayerLeftRight`, it determines the position at
+  which the circles for the names of the nodeAttributes start. The
+  nodeAttributes that belong to both networks are located in the upper
+  half of the circles, the nodeAttributes that belong to the left
+  respectively right network are located in the lower left/right
+  quadrant.
 
--   `startLayerValues` has the default value 0 and if this parameter is
-    greater than `startLayerAttributes`, it determines the position at
-    which the circles for the values of the nodeAttributes start. The
-    values of the nodeAttributes that belong to both networks are
-    located in the upper half (there can be one gray node if the values
-    are equal in both networks or two nodes (blue and orange) if the
-    values are different), the values of nodeAttributes that belongs
-    only to one network are located in the lower left/right sector.
+- `startLayerValues` has the default value 0 and if this parameter is
+  greater than `startLayerAttributes`, it determines the position at
+  which the circles for the values of the nodeAttributes start. The
+  values of the nodeAttributes that belong to both networks are located
+  in the upper half (there can be one gray node if the values are equal
+  in both networks or two nodes (blue and orange) if the values are
+  different), the values of nodeAttributes that belongs only to one
+  network are located in the lower left/right sector.
 
 The following figure shows the the differences of the RCX-objects from
 the section 1.2 with `matchByName` set to `TRUE`.
@@ -1729,9 +1935,7 @@ sessionInfo()
     ## [1] stringr_1.5.0               ndexr_1.20.1                RCXNetworkDifferences_1.0.0 RCX_1.2.2                  
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_1.0.10         rstudioapi_0.14     knitr_1.42          magrittr_2.0.3      R6_2.5.1           
-    ##  [6] rlang_1.0.6         fastmap_1.1.0       httr_1.4.4          plyr_1.8.8          tools_4.2.2        
-    ## [11] xfun_0.36           cli_3.6.0           htmltools_0.5.4     yaml_2.3.7          digest_0.6.31      
-    ## [16] lifecycle_1.0.3     BiocManager_1.30.19 formatR_1.14        vctrs_0.5.2         curl_5.0.0         
-    ## [21] rsconnect_0.8.29    glue_1.6.2          evaluate_0.20       rmarkdown_2.20      stringi_1.7.12     
-    ## [26] compiler_4.2.2      BiocStyle_2.26.0    jsonlite_1.8.4
+    ##  [1] Rcpp_1.0.10     digest_0.6.31   R6_2.5.1        plyr_1.8.8      lifecycle_1.0.3 jsonlite_1.8.4  magrittr_2.0.3 
+    ##  [8] formatR_1.14    evaluate_0.20   httr_1.4.4      stringi_1.7.12  rlang_1.0.6     cli_3.6.0       curl_5.0.0     
+    ## [15] rstudioapi_0.14 vctrs_0.5.2     rmarkdown_2.20  tools_4.2.2     glue_1.6.2      xfun_0.36       yaml_2.3.7     
+    ## [22] fastmap_1.1.0   compiler_4.2.2  htmltools_0.5.4 knitr_1.42

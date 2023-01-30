@@ -4,7 +4,7 @@ knitr::opts_chunk$set(tidy.opts=list(width.cutoff=55,
                                      arrow = TRUE),
                       tidy=TRUE)
 
-## ----library, echo=FALSE, message=FALSE, include = FALSE----------------------
+## ----library, echo=FALSE, message=FALSE, include = TRUE, eval=TRUE------------
 library(RCXNetworkDifferences)
 
 ## ----left right---------------------------------------------------------------
@@ -107,7 +107,6 @@ json
 ## ----JSONToRcx----------------------------------------------------------------
 jsonParsed = parseJSON(json)
 rcx = processCX(jsonParsed, verbose = TRUE)
-rcx$metaData
 
 ## ----mbnTRUE_nodeNetwork------------------------------------------------------
 nodeNetwork = exportDifferencesToNodeNetwork(rcxMatchByNameTRUE$networkDifferences, includeNamesAndRepresents = FALSE, startLayerBoth = 1, startLayerLeftRight = 2, startLayerAttributes = 3, startLayerValues = 4)
@@ -227,5 +226,5 @@ nodesAttributesValuesNetwork = exportDifferencesToNodeNetwork(netDif$networkDiff
 sessionInfo()
 
 ## ----readme, eval=FALSE, include=FALSE----------------------------------------
-#  rmarkdown::render("The_networkDifferences-Aspect.Rmd", rmarkdown::md_document(variant = "markdown_github"), output_file = "../README.md")
+#  rmarkdown::render("The_networkDifferences-Aspect.Rmd", rmarkdown::md_document(variant = "gfm", df_print = "kable"), output_file = "../README.md")
 
