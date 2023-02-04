@@ -7,8 +7,19 @@
 #'
 #' @return updated \link[RCX:createRCX]{RCX object}
 #' @export
-updateNetworkDifferences = function(x, networkDifferences, replace=TRUE, ...){
+updateNetworkDifferences = function(x, aspect){
     UseMethod("updateNetworkDifferences", x)
+}
+
+#' @rdname updateNetworkDifferences
+#' @export
+updateNetworkDifferences.NetworkDifferencesAspect = function(x, aspect, replace=TRUE, ...){
+    res <- plyr::rbind.fill(x, aspect)
+    
+    if (!"NetworkDifferencesAspect" %in% class(res)) {
+        class(res) <- append("NetworkDifferencesAspect", class(res))
+    }
+    return(res)
 }
 
 #' @rdname updateNetworkDifferences

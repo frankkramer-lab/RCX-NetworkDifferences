@@ -2,19 +2,22 @@
 % Please edit documentation in R/update.R
 \name{updateNetworkDifferences}
 \alias{updateNetworkDifferences}
+\alias{updateNetworkDifferences.NetworkDifferencesAspect}
 \alias{updateNetworkDifferences.RCX}
 \title{Update RCX-object with NetworkDifferences aspect}
 \usage{
-updateNetworkDifferences(x, networkDifferences, replace = TRUE, ...)
+updateNetworkDifferences(x, aspect)
+
+\method{updateNetworkDifferences}{NetworkDifferencesAspect}(x, aspect, replace = TRUE, ...)
 
 \method{updateNetworkDifferences}{RCX}(x, networkDifferences, ...)
 }
 \arguments{
 \item{x}{\link[RCX:createRCX]{RCX object}; (to which the new \link{networkDifferences} will be added)}
 
-\item{networkDifferences}{\link{NetworkDifferences} aspect}
-
 \item{...}{additional parameters}
+
+\item{networkDifferences}{\link{NetworkDifferences} aspect}
 }
 \value{
 updated \link[RCX:createRCX]{RCX object}
